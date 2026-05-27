@@ -19,14 +19,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: pnpm/action-setup@v4
-        with:
-          version: 10
-
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: pnpm
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
 
       - name: Get pnpm store directory
         id: pnpm-cache
@@ -39,7 +38,7 @@ jobs:
           restore-keys: ${{ runner.os }}-pnpm-store-
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install --no-frozen-lockfile
 
       - name: Codegen (API spec)
         run: pnpm --filter @workspace/api-spec run generate
