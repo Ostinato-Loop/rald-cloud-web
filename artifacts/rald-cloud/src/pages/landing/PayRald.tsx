@@ -5,9 +5,9 @@ const config: ProductConfig = {
   name: "PayRald",
   tagline: "Move money at the speed of Africa.",
   description: "Enterprise payment infrastructure built for African businesses. Intelligent multi-gateway routing, real-time settlements, and fraud detection — all from one API.",
-  gradient: "linear-gradient(135deg, #38bdf8 0%, #0ea5e9 50%, #0369a1 100%)",
-  glowColor: "#38bdf8",
-  accentColor: "#38bdf8",
+  gradient: "linear-gradient(135deg, #0066FF 0%, #3385FF 50%, #0040CC 100%)",
+  glowColor: "#0066FF",
+  accentColor: "#0066FF",
   features: [
     { icon: "⚡", title: "Sub-second Routing", desc: "Our AI picks the payment gateway with the highest real-time success rate before every transaction." },
     { icon: "🔄", title: "Smart Failover", desc: "If Paystack goes down, we instantly route to Flutterwave. Zero failed transactions. Zero customer friction." },
