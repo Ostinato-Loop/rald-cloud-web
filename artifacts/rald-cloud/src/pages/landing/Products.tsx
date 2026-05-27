@@ -1,23 +1,33 @@
 import { Link } from "wouter";
-import { ArrowRight, Zap, Activity } from "lucide-react";
+import { ArrowRight, Zap, Activity, ExternalLink } from "lucide-react";
 import { LandingNav } from "./shared";
 import SEOMeta from "@/components/SEOMeta";
 
 /* ── BRAND COLORS (canonical per-product palette) ────────────────────────
- * Loop Business: #FF6A00 neon orange — enterprise commerce
- * PayRald            #0066FF  sky blue   — trust, finance, clarity
- * Raldtics           #FFD400  violet     — intelligence, AI, analytics
- * Loop Dispatch      #FFD400  orange     — energy, logistics, motion
- * Loop Voice         #FF4FAD  pink       — voice, human, warmth
- * RALD Identity      #00E5FF  cyan       — identity, security, precision
- * GitRald            #FF2E2E  indigo     — devtools, code, build
- * RALD SDK           #fbbf24  amber      — developer, API, integration
- * Control Center     #e2e8f0  slate      — platform, governance, control
- * Loop Messenger     #FF7A00  teal       — messaging, connection, speed
- * DunaRald           #A855F7  orange     — discovery, commerce, vibrancy
+ * Loop (social audio)  #3EDE72  spring green — voice, community, Africa
+ * Loop Business        #FF6A00  neon orange  — enterprise commerce
+ * PayRald              #0066FF  sky blue     — trust, finance, clarity
+ * Raldtics             #FFD400  yellow       — intelligence, AI, analytics
+ * Loop Dispatch        #FFD400  orange       — energy, logistics, motion
+ * Loop Voice           #FF4FAD  pink         — voice, human, warmth
+ * RALD Identity        #00E5FF  cyan         — identity, security, precision
+ * GitRald              #FF2E2E  red          — devtools, code, build
+ * RALD SDK             #fbbf24  amber        — developer, API, integration
+ * Control Center       #e2e8f0  slate        — platform, governance, control
+ * Loop Messenger       #FF7A00  teal-orange  — messaging, connection, speed
+ * DunaRald             #A855F7  purple       — discovery, commerce, vibrancy
  * ─────────────────────────────────────────────────────────────────────── */
 
 const PRODUCTS = [
+  {
+    slug: "loop-social",
+    externalUrl: "https://loop.rald.cloud",
+    name: "Loop",
+    tagline: "Africa's social audio stage",
+    desc: "Live audio rooms in Yoruba, Igbo, Hausa, and Swahili — real-time conversations for Africa's 1.4B voices.",
+    accent: "#3EDE72",
+    cat: "Audio",
+  },
   {
     slug: "loop",        name: "Loop Business",   tagline: "Africa's Commerce OS",
     desc: "Sell online, manage inventory, accept payments — built for African merchants.",
@@ -64,16 +74,28 @@ const PRODUCTS = [
     accent: "#e2e8f0", cat: "Platform",
   },
   {
-    slug: "messenger",   name: "Loop Messenger",   tagline: "Team messaging built for African bandwidth",
+    slug: "messenger",
+    externalUrl: "https://messenger.rald.cloud",
+    name: "Loop Messenger",
+    tagline: "Team messaging built for African bandwidth",
     desc: "Offline-first E2E encrypted messaging, voice notes, and threads — works at 2G.",
-    accent: "#FF7A00", cat: "Messaging",
+    accent: "#FF7A00",
+    cat: "Messaging",
   },
   {
     slug: "dunarald",    name: "DunaRald",         tagline: "Africa's discovery commerce platform",
     desc: "Where African creators, brands, and communities meet buyers. Shop drops, go viral.",
     accent: "#A855F7", cat: "Discovery",
   },
-];
+] as Array<{
+  slug: string;
+  name: string;
+  tagline: string;
+  desc: string;
+  accent: string;
+  cat: string;
+  externalUrl?: string;
+}>;
 
 const AI_AGENTS = [
   {
@@ -140,13 +162,48 @@ function AgentOrb({ agent }: { agent: typeof AI_AGENTS[0] }) {
   );
 }
 
+function ProductCard({ p }: { p: typeof PRODUCTS[0] }) {
+  const inner = (
+    <div className="group relative p-6 rounded-2xl border border-white/8 hover:border-white/20 transition-all duration-300 cursor-pointer h-full" style={{ background: "rgba(255,255,255,0.02)" }}>
+      <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" style={{ background: `radial-gradient(circle at top left, ${p.accent}08, transparent 60%)` }} />
+      {/* Colored top accent bar */}
+      <div className="absolute top-0 left-6 right-6 h-px rounded-full" style={{ background: `linear-gradient(90deg, transparent, ${p.accent}60, transparent)` }} />
+      <div className="flex items-start justify-between mb-4">
+        <span className="text-[10px] font-semibold uppercase tracking-widest px-2 py-0.5 rounded-full border" style={{ borderColor: `${p.accent}30`, color: p.accent, background: `${p.accent}10` }}>
+          {p.cat}
+        </span>
+        {p.externalUrl
+          ? <ExternalLink className="h-4 w-4 text-white/20 group-hover:text-white/60 transition-all" />
+          : <ArrowRight className="h-4 w-4 text-white/20 group-hover:text-white/60 group-hover:translate-x-1 transition-all" />
+        }
+      </div>
+      <h3 className="font-black text-lg text-white mb-1">{p.name}</h3>
+      <p className="text-xs font-medium mb-3" style={{ color: p.accent }}>{p.tagline}</p>
+      <p className="text-white/40 text-xs leading-relaxed">{p.desc}</p>
+    </div>
+  );
+
+  if (p.externalUrl) {
+    return (
+      <a href={p.externalUrl} target="_blank" rel="noopener noreferrer" data-testid={`card-product-${p.slug}`}>
+        {inner}
+      </a>
+    );
+  }
+  return (
+    <Link href={`/${p.slug}`} data-testid={`card-product-${p.slug}`}>
+      {inner}
+    </Link>
+  );
+}
+
 export default function Products() {
   return (
     <div className="min-h-screen bg-black text-white" style={{ fontFamily: "Inter, sans-serif" }}>
       <SEOMeta
         title="RALD.cloud — Pan-African Enterprise Infrastructure"
-        description="11 enterprise products. Payments, logistics, analytics, DevOps, voice, identity, discovery commerce and more — built for Africa, scaling globally."
-        keywords="African cloud infrastructure, payments Africa, logistics Africa, DevOps Africa, RALD cloud"
+        description="12 enterprise products. Payments, logistics, analytics, DevOps, voice, identity, discovery commerce, social audio and more — built for Africa, scaling globally."
+        keywords="African cloud infrastructure, payments Africa, logistics Africa, DevOps Africa, RALD cloud, Loop social audio Africa"
         canonicalPath="/products"
       />
       <LandingNav productName="" accentColor="#00FF88" />
@@ -156,7 +213,7 @@ export default function Products() {
 
         <div className="text-center mb-16">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/10 text-xs font-medium text-white/60 mb-6">
-            <Zap className="h-3 w-3 text-[#00FF88]" /> 11 products. One ecosystem.
+            <Zap className="h-3 w-3 text-[#00FF88]" /> 12 products. One ecosystem.
           </div>
           <h1 className="text-5xl md:text-6xl font-black tracking-tight mb-4">
             <span className="text-white">RALD</span><span className="text-[#00FF88]">.cloud</span>
@@ -166,24 +223,7 @@ export default function Products() {
 
         {/* Products grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {PRODUCTS.map((p) => (
-            <Link key={p.slug} href={`/${p.slug}`} data-testid={`card-product-${p.slug}`}>
-              <div className="group relative p-6 rounded-2xl border border-white/8 hover:border-white/20 transition-all duration-300 cursor-pointer h-full" style={{ background: "rgba(255,255,255,0.02)" }}>
-                <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" style={{ background: `radial-gradient(circle at top left, ${p.accent}08, transparent 60%)` }} />
-                {/* Colored top accent bar */}
-                <div className="absolute top-0 left-6 right-6 h-px rounded-full" style={{ background: `linear-gradient(90deg, transparent, ${p.accent}60, transparent)` }} />
-                <div className="flex items-start justify-between mb-4">
-                  <span className="text-[10px] font-semibold uppercase tracking-widest px-2 py-0.5 rounded-full border" style={{ borderColor: `${p.accent}30`, color: p.accent, background: `${p.accent}10` }}>
-                    {p.cat}
-                  </span>
-                  <ArrowRight className="h-4 w-4 text-white/20 group-hover:text-white/60 group-hover:translate-x-1 transition-all" />
-                </div>
-                <h3 className="font-black text-lg text-white mb-1">{p.name}</h3>
-                <p className="text-xs font-medium mb-3" style={{ color: p.accent }}>{p.tagline}</p>
-                <p className="text-white/40 text-xs leading-relaxed">{p.desc}</p>
-              </div>
-            </Link>
-          ))}
+          {PRODUCTS.map((p) => <ProductCard key={p.slug} p={p} />)}
         </div>
 
         {/* ── AI AGENTS ── */}
@@ -216,7 +256,7 @@ export default function Products() {
         {/* CTA */}
         <div className="mt-20 text-center">
           <div className="inline-flex flex-col items-center gap-4 p-8 rounded-2xl border border-white/10" style={{ background: "rgba(255,255,255,0.02)" }}>
-            <p className="text-white/60 text-sm">Want early access to all 11 products?</p>
+            <p className="text-white/60 text-sm">Want early access to all 12 products?</p>
             <Link href="/referral">
               <button className="px-6 py-2.5 rounded-full text-sm font-bold text-black bg-[#00FF88] hover:scale-105 transition-transform" data-testid="button-products-referral-cta">
                 Join with a Referral Code
