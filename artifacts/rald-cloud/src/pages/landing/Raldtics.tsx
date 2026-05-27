@@ -5,9 +5,9 @@ const config: ProductConfig = {
   name: "Raldtics",
   tagline: "Data that moves markets.",
   description: "African-first analytics platform. Real-time merchant intelligence, region-specific growth scoring, and AI-powered expansion recommendations — so you always know your next move.",
-  gradient: "linear-gradient(135deg, #a78bfa 0%, #8b5cf6 50%, #6d28d9 100%)",
-  glowColor: "#8b5cf6",
-  accentColor: "#a78bfa",
+  gradient: "linear-gradient(135deg, #FFD400 0%, #E8C000 50%, #CCA800 100%)",
+  glowColor: "#E8C000",
+  accentColor: "#FFD400",
   features: [
     { icon: "📈", title: "Real-time Dashboards", desc: "Live transaction feeds, revenue streams, and cohort analysis. Data lands in under 500ms." },
     { icon: "🤖", title: "AI Expansion Engine", desc: "Our model scores 12+ African regions by profit potential. Tells you exactly where to expand next." },
