@@ -7,45 +7,45 @@
 @theme inline {
   --color-background: hsl(var(--background));
   --color-foreground: hsl(var(--foreground));
-  --color-border: hsl(var(--border));
-  --color-input: hsl(var(--input));
-  --color-ring: hsl(var(--ring));
-  --color-card: hsl(var(--card));
-  --color-card-foreground: hsl(var(--card-foreground));
-  --color-card-border: hsl(var(--card-border));
-  --color-popover: hsl(var(--popover));
-  --color-popover-foreground: hsl(var(--popover-foreground));
-  --color-popover-border: hsl(var(--popover-border));
-  --color-primary: hsl(var(--primary));
-  --color-primary-foreground: hsl(var(--primary-foreground));
-  --color-primary-border: var(--primary-border);
-  --color-secondary: hsl(var(--secondary));
+  --color-border:     hsl(var(--border));
+  --color-input:      hsl(var(--input));
+  --color-ring:       hsl(var(--ring));
+  --color-card:             hsl(var(--card));
+  --color-card-foreground:  hsl(var(--card-foreground));
+  --color-card-border:      hsl(var(--card-border));
+  --color-popover:             hsl(var(--popover));
+  --color-popover-foreground:  hsl(var(--popover-foreground));
+  --color-popover-border:      hsl(var(--popover-border));
+  --color-primary:             hsl(var(--primary));
+  --color-primary-foreground:  hsl(var(--primary-foreground));
+  --color-primary-border:      var(--primary-border);
+  --color-secondary:            hsl(var(--secondary));
   --color-secondary-foreground: hsl(var(--secondary-foreground));
-  --color-secondary-border: var(--secondary-border);
-  --color-muted: hsl(var(--muted));
-  --color-muted-foreground: hsl(var(--muted-foreground));
-  --color-muted-border: var(--muted-border);
-  --color-accent: hsl(var(--accent));
-  --color-accent-foreground: hsl(var(--accent-foreground));
-  --color-accent-border: var(--accent-border);
-  --color-destructive: hsl(var(--destructive));
+  --color-secondary-border:     var(--secondary-border);
+  --color-muted:             hsl(var(--muted));
+  --color-muted-foreground:  hsl(var(--muted-foreground));
+  --color-muted-border:      var(--muted-border);
+  --color-accent:             hsl(var(--accent));
+  --color-accent-foreground:  hsl(var(--accent-foreground));
+  --color-accent-border:      var(--accent-border);
+  --color-destructive:            hsl(var(--destructive));
   --color-destructive-foreground: hsl(var(--destructive-foreground));
-  --color-destructive-border: var(--destructive-border);
+  --color-destructive-border:     var(--destructive-border);
   --color-chart-1: hsl(var(--chart-1));
   --color-chart-2: hsl(var(--chart-2));
   --color-chart-3: hsl(var(--chart-3));
   --color-chart-4: hsl(var(--chart-4));
   --color-chart-5: hsl(var(--chart-5));
-  --color-sidebar: hsl(var(--sidebar));
-  --color-sidebar-foreground: hsl(var(--sidebar-foreground));
-  --color-sidebar-border: hsl(var(--sidebar-border));
-  --color-sidebar-primary: hsl(var(--sidebar-primary));
-  --color-sidebar-primary-foreground: hsl(var(--sidebar-primary-foreground));
-  --color-sidebar-primary-border: var(--sidebar-primary-border);
-  --color-sidebar-accent: hsl(var(--sidebar-accent));
-  --color-sidebar-accent-foreground: hsl(var(--sidebar-accent-foreground));
-  --color-sidebar-accent-border: var(--sidebar-accent-border);
-  --color-sidebar-ring: hsl(var(--sidebar-ring));
+  --color-sidebar:                     hsl(var(--sidebar));
+  --color-sidebar-foreground:          hsl(var(--sidebar-foreground));
+  --color-sidebar-border:              hsl(var(--sidebar-border));
+  --color-sidebar-primary:             hsl(var(--sidebar-primary));
+  --color-sidebar-primary-foreground:  hsl(var(--sidebar-primary-foreground));
+  --color-sidebar-primary-border:      var(--sidebar-primary-border);
+  --color-sidebar-accent:              hsl(var(--sidebar-accent));
+  --color-sidebar-accent-foreground:   hsl(var(--sidebar-accent-foreground));
+  --color-sidebar-accent-border:       var(--sidebar-accent-border);
+  --color-sidebar-ring:                hsl(var(--sidebar-ring));
   --font-sans: var(--app-font-sans);
   --font-serif: var(--app-font-serif);
   --font-mono: var(--app-font-mono);
@@ -55,88 +55,157 @@
   --radius-xl: calc(var(--radius) + 4px);
 }
 
-/* RALD.cloud — Dark command center theme */
+/* ═══════════════════════════════════════════════════════════
+   RALD ECOSYSTEM TOKEN REGISTRY
+   Cyber slate command center — living infrastructure universe
+   ═══════════════════════════════════════════════════════════ */
 :root {
-  --button-outline: rgba(255,255,255,.10);
-  --badge-outline: rgba(255,255,255,.05);
+  /* Elevation overlays */
+  --button-outline: rgba(255,255,255,.08);
+  --badge-outline:  rgba(255,255,255,.05);
   --opaque-button-border-intensity: 9;
-  --elevate-1: rgba(255,255,255,.04);
-  --elevate-2: rgba(255,255,255,.09);
+  --elevate-1: rgba(255,255,255,.03);
+  --elevate-2: rgba(255,255,255,.07);
 
-  /* Deep navy/slate background */
-  --background: 220 26% 8%; /* Very dark blue-gray */
-  --foreground: 213 31% 91%;
-  
-  --border: 220 26% 14%;
-  
-  --card: 220 26% 11%;
-  --card-foreground: 213 31% 91%;
-  --card-border: 220 26% 14%;
-  
-  --sidebar: 220 26% 10%;
-  --sidebar-foreground: 213 31% 91%;
-  --sidebar-border: 220 26% 14%;
-  --sidebar-primary: 157 100% 39%; /* Electric Green #00C97C */
-  --sidebar-primary-foreground: 220 26% 8%;
-  --sidebar-accent: 220 26% 16%;
-  --sidebar-accent-foreground: 157 100% 39%;
-  --sidebar-ring: 157 100% 39%;
-  
-  --popover: 220 26% 11%;
-  --popover-foreground: 215 20.2% 65.1%;
-  --popover-border: 220 26% 14%;
-  
-  --primary: 157 100% 39%; /* Electric Green #00C97C */
-  --primary-foreground: 220 26% 8%;
-  
-  --secondary: 220 26% 16%;
-  --secondary-foreground: 213 31% 91%;
-  
-  --muted: 220 26% 14%;
-  --muted-foreground: 215 20% 65%;
-  
-  --accent: 220 26% 18%;
-  --accent-foreground: 157 100% 39%;
-  
-  --destructive: 0 84% 60%;
+  /* ── Base: Cyber Slate ──────────────────────────────────── */
+  --background: 220 30% 6%;      /* #080D14 deep tactical graphite */
+  --foreground: 210 25% 92%;
+
+  --border:   220 25% 12%;
+  --input:    220 25% 11%;
+  --ring:     152 100% 45%;      /* Loop green ring */
+
+  --card:           220 28% 9%;
+  --card-foreground: 210 25% 92%;
+  --card-border:    220 25% 13%;
+
+  --sidebar:                   220 28% 8%;
+  --sidebar-foreground:        210 25% 92%;
+  --sidebar-border:            220 25% 12%;
+  --sidebar-primary:           152 100% 50%;    /* Loop neon green */
+  --sidebar-primary-foreground: 220 30% 6%;
+  --sidebar-accent:            220 25% 14%;
+  --sidebar-accent-foreground: 210 25% 92%;
+  --sidebar-ring:              152 100% 50%;
+
+  --popover:            220 28% 9%;
+  --popover-foreground: 215 20% 62%;
+  --popover-border:     220 25% 13%;
+
+  /* ── Primary: Loop neon green (ecosystem anchor) ───────── */
+  --primary:            152 100% 50%;   /* #00FF88 */
+  --primary-foreground: 220 30% 6%;
+
+  --secondary:            220 25% 14%;
+  --secondary-foreground: 210 25% 92%;
+
+  --muted:            220 25% 12%;
+  --muted-foreground: 215 18% 58%;
+
+  --accent:            220 25% 16%;
+  --accent-foreground: 152 100% 50%;
+
+  --destructive:            0 84% 60%;
   --destructive-foreground: 210 40% 98%;
-  
-  --input: 220 26% 14%;
-  --ring: 157 100% 39%;
-  
-  --chart-1: 157 100% 39%;
-  --chart-2: 199 89% 48%;
-  --chart-3: 262 80% 65%;
-  --chart-4: 38 92% 50%;
-  --chart-5: 0 72% 51%;
 
-  --app-font-sans: 'Inter', sans-serif;
+  /* ── Charts: per-product neon palette ──────────────────── */
+  --chart-1: 152 100% 50%;    /* Loop green  */
+  --chart-2: 210 100% 50%;    /* PayRald blue*/
+  --chart-3: 280  87% 65%;    /* DunaRald purple */
+  --chart-4: 48  100% 50%;    /* Raldtics yellow */
+  --chart-5: 0    90% 59%;    /* GitRald red */
+
+  --app-font-sans:  'Inter', 'DM Sans', sans-serif;
   --app-font-serif: Georgia, serif;
-  --app-font-mono: 'JetBrains Mono', 'Fira Code', monospace;
-  --radius: 0.3rem; /* Sharp edges */
-  --shadow-2xs: 0px 1px 2px 0px rgba(0,0,0,0.6);
-  --shadow-xs: 0px 1px 3px 0px rgba(0,0,0,0.7);
-  --shadow-sm: 0px 2px 4px 0px rgba(0,0,0,0.7);
-  --shadow: 0px 4px 8px 0px rgba(0,0,0,0.7);
-  --shadow-md: 0px 6px 12px 0px rgba(0,0,0,0.7);
-  --shadow-lg: 0px 10px 20px 0px rgba(0,0,0,0.7);
-  --shadow-xl: 0px 16px 32px 0px rgba(0,0,0,0.7);
-  --shadow-2xl: 0px 24px 48px 0px rgba(0,0,0,0.7);
-  --tracking-normal: 0em;
-  --spacing: 0.25rem;
+  --app-font-mono:  'JetBrains Mono', 'Fira Code', monospace;
+  --radius: 0.25rem;
 
-  --sidebar-primary-border: hsl(from hsl(var(--sidebar-primary)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
-  --sidebar-accent-border: hsl(from hsl(var(--sidebar-accent)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
-  --primary-border: hsl(from hsl(var(--primary)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
-  --secondary-border: hsl(from hsl(var(--secondary)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
-  --muted-border: hsl(from hsl(var(--muted)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
-  --accent-border: hsl(from hsl(var(--accent)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
+  --shadow-sm:  0px 2px 4px rgba(0,0,0,0.8);
+  --shadow:     0px 4px 8px rgba(0,0,0,0.8);
+  --shadow-md:  0px 8px 16px rgba(0,0,0,0.8);
+  --shadow-lg:  0px 16px 32px rgba(0,0,0,0.8);
+  --shadow-xl:  0px 24px 48px rgba(0,0,0,0.8);
+  --shadow-2xl: 0px 40px 80px rgba(0,0,0,0.8);
+
+  /* ── PRODUCT COLOR TOKENS ───────────────────────────────── */
+  /* Loop — Neon Green */
+  --loop:              #00FF88;
+  --loop-dim:          #00D96F;
+  --loop-glow:         rgba(0,255,136,0.22);
+  --loop-bg:           #0A1F16;
+
+  /* Loop Messenger — Neon Orange */
+  --messenger:         #FF7A00;
+  --messenger-dim:     #E66D00;
+  --messenger-glow:    rgba(255,122,0,0.22);
+  --messenger-bg:      #241100;
+
+  /* Loop Business — Neon Orange (enterprise) */
+  --loop-biz:          #FF6A00;
+  --loop-biz-glow:     rgba(255,106,0,0.22);
+  --loop-biz-bg:       #2A1200;
+
+  /* PayRald — Neon Navy Blue */
+  --payrald:           #0066FF;
+  --payrald-accent:    #3385FF;
+  --payrald-glow:      rgba(0,102,255,0.22);
+  --payrald-bg:        #07111F;
+
+  /* Raldtics — Neon Yellow */
+  --raldtics:          #FFD400;
+  --raldtics-accent:   #FFE14A;
+  --raldtics-glow:     rgba(255,212,0,0.22);
+  --raldtics-bg:       #2B2400;
+
+  /* Loop Dispatch — Neon Blue */
+  --dispatch:          #00BFFF;
+  --dispatch-accent:   #4DD8FF;
+  --dispatch-glow:     rgba(0,191,255,0.22);
+  --dispatch-bg:       #041923;
+
+  /* DunaRald — Neon Purple */
+  --dunarald:          #A855F7;
+  --dunarald-accent:   #C084FC;
+  --dunarald-glow:     rgba(168,85,247,0.22);
+  --dunarald-bg:       #190726;
+
+  /* GitRald — Neon Red */
+  --gitrald:           #FF2E2E;
+  --gitrald-accent:    #FF6666;
+  --gitrald-glow:      rgba(255,46,46,0.22);
+  --gitrald-bg:        #240505;
+
+  /* ── Loop Voice — Neon Pink ─────────────────────────────── */
+  --loop-voice:        #FF4FAD;
+  --loop-voice-glow:   rgba(255,79,173,0.22);
+  --loop-voice-bg:     #200B16;
+
+  /* ── RALD Identity — Cyan ───────────────────────────────── */
+  --rald-identity:     #00E5FF;
+  --rald-identity-glow: rgba(0,229,255,0.22);
+
+  /* ── Ecosystem gradient ─────────────────────────────────── */
+  --ecosystem-gradient: linear-gradient(
+    135deg,
+    #00FF88 0%,
+    #0066FF 16%,
+    #A855F7 32%,
+    #FF2E2E 48%,
+    #FFD400 64%,
+    #00BFFF 80%,
+    #FF7A00 100%
+  );
+
+  --primary-border:    hsl(from hsl(var(--primary)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
+  --secondary-border:  hsl(from hsl(var(--secondary)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
+  --muted-border:      hsl(from hsl(var(--muted)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
+  --accent-border:     hsl(from hsl(var(--accent)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
   --destructive-border: hsl(from hsl(var(--destructive)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
+  --sidebar-primary-border: hsl(from hsl(var(--sidebar-primary)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
+  --sidebar-accent-border:  hsl(from hsl(var(--sidebar-accent)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
 }
 
-.dark {
-  /* Using root as default dark mode */
-}
+.dark { /* inherits :root — dark is the default */ }
 
 @layer base {
   * { @apply border-border; }
@@ -150,4 +219,65 @@
     color: hsl(var(--muted-foreground));
     pointer-events: none;
   }
+
+  /* ── Ecosystem gradient text (RALD.cloud hero) ──────────── */
+  .text-ecosystem-gradient {
+    background: var(--ecosystem-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    background-size: 300% 300%;
+    animation: ecosystem-shift 10s ease infinite;
+  }
+  @keyframes ecosystem-shift {
+    0%   { background-position: 0%   50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0%   50%; }
+  }
+
+  /* ── Per-product neon glow borders ─────────────────────── */
+  .glow-loop       { box-shadow: 0 0 18px var(--loop-glow),      0 0 1px var(--loop); }
+  .glow-messenger  { box-shadow: 0 0 18px var(--messenger-glow), 0 0 1px var(--messenger); }
+  .glow-payrald    { box-shadow: 0 0 18px var(--payrald-glow),   0 0 1px var(--payrald); }
+  .glow-raldtics   { box-shadow: 0 0 18px var(--raldtics-glow),  0 0 1px var(--raldtics); }
+  .glow-dispatch   { box-shadow: 0 0 18px var(--dispatch-glow),  0 0 1px var(--dispatch); }
+  .glow-dunarald   { box-shadow: 0 0 18px var(--dunarald-glow),  0 0 1px var(--dunarald); }
+  .glow-gitrald    { box-shadow: 0 0 18px var(--gitrald-glow),   0 0 1px var(--gitrald); }
+
+  /* ── Product gradient fills ─────────────────────────────── */
+  .bg-loop        { background: linear-gradient(135deg, var(--loop) 0%,       var(--loop-dim) 100%); }
+  .bg-payrald     { background: linear-gradient(135deg, var(--payrald-accent) 0%, var(--payrald) 100%); }
+  .bg-raldtics    { background: linear-gradient(135deg, var(--raldtics-accent) 0%, var(--raldtics) 100%); }
+  .bg-dispatch    { background: linear-gradient(135deg, var(--dispatch-accent) 0%, var(--dispatch) 100%); }
+  .bg-dunarald    { background: linear-gradient(135deg, var(--dunarald-accent) 0%, var(--dunarald) 100%); }
+  .bg-gitrald     { background: linear-gradient(135deg, var(--gitrald-accent) 0%, var(--gitrald) 100%); }
+  .bg-messenger   { background: linear-gradient(135deg, #FF9B3D 0%,    var(--messenger) 100%); }
+
+  /* ── Pulse dots ─────────────────────────────────────────── */
+  .pulse-loop      { animation: pulse-green 2s ease-out infinite; }
+  .pulse-payrald   { animation: pulse-blue  2s ease-out infinite; }
+  .pulse-gitrald   { animation: pulse-red   2s ease-out infinite; }
+  @keyframes pulse-green { 0%,100% { box-shadow: 0 0 0 0 rgba(0,255,136,0.6); } 50% { box-shadow: 0 0 0 8px transparent; } }
+  @keyframes pulse-blue  { 0%,100% { box-shadow: 0 0 0 0 rgba(0,102,255,0.6); } 50% { box-shadow: 0 0 0 8px transparent; } }
+  @keyframes pulse-red   { 0%,100% { box-shadow: 0 0 0 0 rgba(255,46,46,0.6);  } 50% { box-shadow: 0 0 0 8px transparent; } }
+
+  /* ── Signal scan animation ──────────────────────────────── */
+  .signal-scan {
+    position: relative;
+    overflow: hidden;
+  }
+  .signal-scan::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent 0%, rgba(0,255,136,0.04) 50%, transparent 100%);
+    animation: signal-scan 3s ease-in-out infinite;
+  }
+  @keyframes signal-scan {
+    0%   { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+
+  .hide-scrollbar::-webkit-scrollbar { display: none; }
+  .hide-scrollbar { scrollbar-width: none; }
 }
