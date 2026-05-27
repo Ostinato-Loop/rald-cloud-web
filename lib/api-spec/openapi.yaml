@@ -1,0 +1,912 @@
+openapi: 3.1.0
+info:
+  title: Api
+  version: 0.1.0
+  description: RALD.cloud Ecosystem API
+servers:
+  - url: /api
+    description: Base API path
+tags:
+  - name: health
+  - name: ecosystem
+  - name: repos
+  - name: deployments
+  - name: payments
+  - name: logistics
+  - name: secrets
+  - name: expansion
+  - name: agents
+  - name: Auth
+    description: Browser and mobile authentication via Replit OIDC.
+paths:
+  /healthz:
+    get:
+      operationId: healthCheck
+      tags: [health]
+      summary: Health check
+      responses:
+        "200":
+          description: Healthy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthStatus"
+
+  # ──── ECOSYSTEM REGISTRY ────
+  /ecosystem/services:
+    get:
+      operationId: listServices
+      tags: [ecosystem]
+      summary: List all RALD ecosystem services with health & status
+      responses:
+        "200":
+          description: Service list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/EcosystemService"
+  /ecosystem/summary:
+    get:
+      operationId: getEcosystemSummary
+      tags: [ecosystem]
+      summary: Overall ecosystem health summary
+      responses:
+        "200":
+          description: Summary
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EcosystemSummary"
+
+  # ──── GITHUB REPO MANAGEMENT ────
+  /repos:
+    get:
+      operationId: listRepos
+      tags: [repos]
+      summary: List all RALD GitHub repos with CI status
+      responses:
+        "200":
+          description: Repo list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/GitRepo"
+    post:
+      operationId: createRepo
+      tags: [repos]
+      summary: Create a new GitHub repository
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RepoInput"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GitRepo"
+  /repos/stats:
+    get:
+      operationId: getRepoStats
+      tags: [repos]
+      summary: Aggregate repo stats (green vs failing CI, open PRs, etc.)
+      responses:
+        "200":
+          description: Stats
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RepoStats"
+  /repos/{name}/sync:
+    post:
+      operationId: syncRepo
+      tags: [repos]
+      summary: Push CI workflow and sync repo to latest standard
+      parameters:
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Synced
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SyncResult"
+
+  # ──── CLOUDFLARE DEPLOYMENTS ────
+  /deployments/pages:
+    get:
+      operationId: listPagesProjects
+      tags: [deployments]
+      summary: List Cloudflare Pages projects
+      responses:
+        "200":
+          description: Pages list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/PagesProject"
+    post:
+      operationId: createPagesProject
+      tags: [deployments]
+      summary: Create a Cloudflare Pages project linked to GitHub
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PagesProjectInput"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PagesProject"
+  /deployments/workers:
+    get:
+      operationId: listWorkers
+      tags: [deployments]
+      summary: List Cloudflare Workers scripts
+      responses:
+        "200":
+          description: Workers list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/WorkerScript"
+    post:
+      operationId: deployWorker
+      tags: [deployments]
+      summary: Deploy a Cloudflare Worker script
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/WorkerInput"
+      responses:
+        "201":
+          description: Deployed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WorkerScript"
+  /deployments/summary:
+    get:
+      operationId: getDeploymentSummary
+      tags: [deployments]
+      summary: Deployment health overview (pages vs workers, active, errored)
+      responses:
+        "200":
+          description: Summary
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeploymentSummary"
+
+  # ──── NIGERIAN PAYMENT ROUTING ────
+  /payments/providers:
+    get:
+      operationId: listPaymentProviders
+      tags: [payments]
+      summary: List all Nigerian payment providers and routing config
+      responses:
+        "200":
+          description: Providers
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/PaymentProvider"
+    post:
+      operationId: savePaymentProvider
+      tags: [payments]
+      summary: Add or update a payment provider credential
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PaymentProviderInput"
+      responses:
+        "200":
+          description: Saved
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PaymentProvider"
+  /payments/route:
+    post:
+      operationId: routePayment
+      tags: [payments]
+      summary: Route a payment to the optimal Nigerian provider
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PaymentRouteRequest"
+      responses:
+        "200":
+          description: Routed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PaymentRouteResult"
+  /payments/stats:
+    get:
+      operationId: getPaymentStats
+      tags: [payments]
+      summary: Payment volume by provider and success rates
+      responses:
+        "200":
+          description: Stats
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PaymentStats"
+
+  # ──── NIGERIAN LOGISTICS ROUTING ────
+  /logistics/providers:
+    get:
+      operationId: listLogisticsProviders
+      tags: [logistics]
+      summary: List Nigerian logistics/dispatch providers and routing config
+      responses:
+        "200":
+          description: Providers
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/LogisticsProvider"
+    post:
+      operationId: saveLogisticsProvider
+      tags: [logistics]
+      summary: Add or update a logistics provider credential
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LogisticsProviderInput"
+      responses:
+        "200":
+          description: Saved
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LogisticsProvider"
+  /logistics/route:
+    post:
+      operationId: routeShipment
+      tags: [logistics]
+      summary: Route a shipment to the optimal Nigerian logistics provider
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ShipmentRouteRequest"
+      responses:
+        "200":
+          description: Routed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ShipmentRouteResult"
+  /logistics/stats:
+    get:
+      operationId: getLogisticsStats
+      tags: [logistics]
+      summary: Shipment volumes by provider and delivery rates
+      responses:
+        "200":
+          description: Stats
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LogisticsStats"
+
+  # ──── SECRET / KEY ROTATION ────
+  /secrets:
+    get:
+      operationId: listSecrets
+      tags: [secrets]
+      summary: List all managed service credentials (masked) with rotation status
+      responses:
+        "200":
+          description: Secrets list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ManagedSecret"
+    post:
+      operationId: upsertSecret
+      tags: [secrets]
+      summary: Add or rotate a service credential
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SecretInput"
+      responses:
+        "200":
+          description: Saved
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ManagedSecret"
+  /secrets/{id}:
+    delete:
+      operationId: deleteSecret
+      tags: [secrets]
+      summary: Delete a managed secret
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Deleted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeleteResult"
+
+  # ──── SELF-EXPANSION BY REGION ────
+  /expansion/regions:
+    get:
+      operationId: listRegions
+      tags: [expansion]
+      summary: List regions with profitability scores and expansion readiness
+      responses:
+        "200":
+          description: Regions
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/RegionData"
+  /expansion/recommend:
+    get:
+      operationId: getExpansionRecommendations
+      tags: [expansion]
+      summary: AI-powered next expansion targets based on profit by region
+      responses:
+        "200":
+          description: Recommendations
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ExpansionRecommendation"
+  /expansion/metrics:
+    get:
+      operationId: getExpansionMetrics
+      tags: [expansion]
+      summary: Top-level expansion metrics dashboard
+      responses:
+        "200":
+          description: Metrics
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ExpansionMetrics"
+
+  # ──── AI AGENTS ────
+  /agents:
+    get:
+      operationId: listAgents
+      tags: [agents]
+      summary: List all RALD AI agents (Atlas, Sentinel, Nova, etc.) with status
+      responses:
+        "200":
+          description: Agents
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/AIAgent"
+  /agents/activity:
+    get:
+      operationId: getAgentActivity
+      tags: [agents]
+      summary: Recent AI agent activity feed
+      responses:
+        "200":
+          description: Activity
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/AgentActivity"
+
+  # ──── AUTH ────
+  /auth/user:
+    get:
+      tags: [Auth]
+      operationId: getCurrentAuthUser
+      summary: Get the currently authenticated user
+      parameters:
+        - $ref: '#/components/parameters/AuthorizationSessionHeader'
+        - $ref: '#/components/parameters/SessionCookie'
+      responses:
+        '200':
+          description: Auth status resolved.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthUserEnvelope'
+  /login:
+    get:
+      tags: [Auth]
+      operationId: login
+      summary: Redirect to Replit OIDC provider
+      responses:
+        '302':
+          description: Redirect to Replit OIDC.
+  /callback:
+    get:
+      tags: [Auth]
+      operationId: authCallback
+      summary: OIDC authorization code callback
+      responses:
+        '302':
+          description: Redirect after successful auth.
+  /logout:
+    get:
+      tags: [Auth]
+      operationId: logout
+      summary: Log out and end the current session
+      parameters:
+        - $ref: '#/components/parameters/SessionCookie'
+      responses:
+        '302':
+          description: Redirect after logout.
+  /mobile-auth/token-exchange:
+    post:
+      tags: [Auth]
+      operationId: exchangeMobileAuthorizationCode
+      summary: Exchange a PKCE authorization code for a session token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExchangeMobileAuthorizationCodeBody'
+      responses:
+        '200':
+          description: Session token issued.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExchangeMobileAuthorizationCodeResponse'
+        '400':
+          description: Missing or invalid parameters.
+        '401':
+          description: Authentication failed.
+        '500':
+          description: Internal error.
+  /mobile-auth/logout:
+    post:
+      tags: [Auth]
+      operationId: logoutMobileSession
+      summary: Invalidate a mobile session token
+      parameters:
+        - $ref: '#/components/parameters/AuthorizationSessionHeader'
+      responses:
+        '200':
+          description: Session revoked.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LogoutMobileSessionResponse'
+
+components:
+  schemas:
+    HealthStatus:
+      type: object
+      required: [status]
+      properties:
+        status:
+          type: string
+        version:
+          type: string
+        uptime:
+          type: number
+
+    # ── ECOSYSTEM ──
+    EcosystemService:
+      type: object
+      required: [id, name, slug, domain, status, category]
+      properties:
+        id:          { type: string }
+        name:        { type: string }
+        slug:        { type: string }
+        domain:      { type: string }
+        description: { type: string }
+        category:    { type: string }
+        status:      { type: string, enum: [healthy, degraded, down, unknown] }
+        repoUrl:     { type: ["string","null"] }
+        cfProject:   { type: ["string","null"] }
+        lastDeploy:  { type: ["string","null"] }
+    EcosystemSummary:
+      type: object
+      required: [total, healthy, degraded, down, totalRepos, greenRepos]
+      properties:
+        total:       { type: integer }
+        healthy:     { type: integer }
+        degraded:    { type: integer }
+        down:        { type: integer }
+        totalRepos:  { type: integer }
+        greenRepos:  { type: integer }
+        cfPages:     { type: integer }
+        cfWorkers:   { type: integer }
+
+    # ── REPOS ──
+    GitRepo:
+      type: object
+      required: [id, name, fullName, url, ciStatus, defaultBranch]
+      properties:
+        id:            { type: integer }
+        name:          { type: string }
+        fullName:      { type: string }
+        url:           { type: string }
+        description:   { type: ["string","null"] }
+        defaultBranch: { type: string }
+        ciStatus:      { type: string, enum: [success, failure, pending, unknown] }
+        openPRs:       { type: integer }
+        stars:         { type: integer }
+        updatedAt:     { type: string }
+        topics:        { type: array, items: { type: string } }
+    RepoInput:
+      type: object
+      required: [name, description]
+      properties:
+        name:        { type: string }
+        description: { type: string }
+        private:     { type: boolean }
+        topics:      { type: array, items: { type: string } }
+    RepoStats:
+      type: object
+      required: [total, greenCI, failingCI, pending, totalPRs]
+      properties:
+        total:      { type: integer }
+        greenCI:    { type: integer }
+        failingCI:  { type: integer }
+        pending:    { type: integer }
+        totalPRs:   { type: integer }
+    SyncResult:
+      type: object
+      required: [repo, synced]
+      properties:
+        repo:    { type: string }
+        synced:  { type: boolean }
+        message: { type: string }
+
+    # ── CLOUDFLARE ──
+    PagesProject:
+      type: object
+      required: [id, name, subdomain, status]
+      properties:
+        id:          { type: string }
+        name:        { type: string }
+        subdomain:   { type: string }
+        customDomain: { type: ["string","null"] }
+        status:      { type: string }
+        latestDeploy: { type: ["string","null"] }
+        createdOn:   { type: string }
+    PagesProjectInput:
+      type: object
+      required: [name, repoName]
+      properties:
+        name:        { type: string }
+        repoName:    { type: string }
+        buildCommand: { type: string }
+        outputDir:   { type: string }
+    WorkerScript:
+      type: object
+      required: [id, etag, size]
+      properties:
+        id:          { type: string }
+        etag:        { type: string }
+        size:        { type: integer }
+        modifiedOn:  { type: string }
+        routes:      { type: array, items: { type: string } }
+    WorkerInput:
+      type: object
+      required: [name, script]
+      properties:
+        name:   { type: string }
+        script: { type: string }
+        routes: { type: array, items: { type: string } }
+    DeploymentSummary:
+      type: object
+      required: [totalPages, totalWorkers, activeDeployments]
+      properties:
+        totalPages:         { type: integer }
+        totalWorkers:       { type: integer }
+        activeDeployments:  { type: integer }
+        recentDeploys:      { type: integer }
+
+    # ── PAYMENTS ──
+    PaymentProvider:
+      type: object
+      required: [id, name, slug, enabled, priority]
+      properties:
+        id:          { type: string }
+        name:        { type: string }
+        slug:        { type: string }
+        enabled:     { type: boolean }
+        priority:    { type: integer }
+        description: { type: string }
+        features:    { type: array, items: { type: string } }
+        hasCredentials: { type: boolean }
+        successRate: { type: ["number","null"] }
+        lastChecked: { type: ["string","null"] }
+    PaymentProviderInput:
+      type: object
+      required: [slug, apiKey]
+      properties:
+        slug:          { type: string }
+        apiKey:        { type: string }
+        secretKey:     { type: string }
+        encryptionKey: { type: string }
+        webhookSecret: { type: string }
+        enabled:       { type: boolean }
+        priority:      { type: integer }
+    PaymentRouteRequest:
+      type: object
+      required: [amount, currency]
+      properties:
+        amount:    { type: number }
+        currency:  { type: string }
+        channel:   { type: string }
+        metadata:  { type: object }
+    PaymentRouteResult:
+      type: object
+      required: [provider, paymentUrl, reference]
+      properties:
+        provider:   { type: string }
+        paymentUrl: { type: string }
+        reference:  { type: string }
+        reason:     { type: string }
+    PaymentStats:
+      type: object
+      required: [totalVolume, totalTransactions]
+      properties:
+        totalVolume:       { type: number }
+        totalTransactions: { type: integer }
+        byProvider:
+          type: array
+          items:
+            type: object
+            required: [provider, volume, count, successRate]
+            properties:
+              provider:    { type: string }
+              volume:      { type: number }
+              count:       { type: integer }
+              successRate: { type: number }
+
+    # ── LOGISTICS ──
+    LogisticsProvider:
+      type: object
+      required: [id, name, slug, enabled, priority]
+      properties:
+        id:          { type: string }
+        name:        { type: string }
+        slug:        { type: string }
+        enabled:     { type: boolean }
+        priority:    { type: integer }
+        description: { type: string }
+        coverage:    { type: array, items: { type: string } }
+        hasCredentials: { type: boolean }
+        deliveryRate: { type: ["number","null"] }
+    LogisticsProviderInput:
+      type: object
+      required: [slug, apiKey]
+      properties:
+        slug:       { type: string }
+        apiKey:     { type: string }
+        secretKey:  { type: string }
+        baseUrl:    { type: string }
+        enabled:    { type: boolean }
+        priority:   { type: integer }
+    ShipmentRouteRequest:
+      type: object
+      required: [origin, destination, weight]
+      properties:
+        origin:      { type: string }
+        destination: { type: string }
+        weight:      { type: number }
+        category:    { type: string }
+    ShipmentRouteResult:
+      type: object
+      required: [provider, trackingId, estimatedDays, cost]
+      properties:
+        provider:      { type: string }
+        trackingId:    { type: string }
+        estimatedDays: { type: integer }
+        cost:          { type: number }
+        reason:        { type: string }
+    LogisticsStats:
+      type: object
+      required: [totalShipments, delivered, pending]
+      properties:
+        totalShipments: { type: integer }
+        delivered:      { type: integer }
+        pending:        { type: integer }
+        byProvider:
+          type: array
+          items:
+            type: object
+            required: [provider, count, deliveryRate]
+            properties:
+              provider:     { type: string }
+              count:        { type: integer }
+              deliveryRate: { type: number }
+
+    # ── SECRETS ──
+    ManagedSecret:
+      type: object
+      required: [id, service, label, maskedValue, rotatedAt]
+      properties:
+        id:          { type: string }
+        service:     { type: string }
+        label:       { type: string }
+        maskedValue: { type: string }
+        rotatedAt:   { type: string }
+        expiresAt:   { type: ["string","null"] }
+        status:      { type: string, enum: [active, expiring_soon, expired] }
+    SecretInput:
+      type: object
+      required: [service, label, value]
+      properties:
+        service:   { type: string }
+        label:     { type: string }
+        value:     { type: string }
+        expiresAt: { type: string }
+    DeleteResult:
+      type: object
+      required: [id, deleted]
+      properties:
+        id:      { type: string }
+        deleted: { type: boolean }
+
+    # ── EXPANSION ──
+    RegionData:
+      type: object
+      required: [id, name, country, state, revenue, transactions, growth]
+      properties:
+        id:              { type: string }
+        name:            { type: string }
+        country:         { type: string }
+        state:           { type: string }
+        revenue:         { type: number }
+        transactions:    { type: integer }
+        growth:          { type: number }
+        activemerchants: { type: integer }
+        profitScore:     { type: number }
+        expandable:      { type: boolean }
+    ExpansionRecommendation:
+      type: object
+      required: [region, score, reason, estimatedRevenue]
+      properties:
+        region:           { type: string }
+        score:            { type: number }
+        reason:           { type: string }
+        estimatedRevenue: { type: number }
+        priority:         { type: string, enum: [high, medium, low] }
+    ExpansionMetrics:
+      type: object
+      required: [totalRevenue, topRegion, avgGrowth, regionsExpanded]
+      properties:
+        totalRevenue:    { type: number }
+        topRegion:       { type: string }
+        avgGrowth:       { type: number }
+        regionsExpanded: { type: integer }
+        monthlyGrowth:   { type: number }
+
+    # ── AI AGENTS ──
+    AIAgent:
+      type: object
+      required: [id, name, role, status]
+      properties:
+        id:          { type: string }
+        name:        { type: string }
+        role:        { type: string }
+        status:      { type: string, enum: [active, idle, error] }
+        tasksToday:  { type: integer }
+        lastAction:  { type: ["string","null"] }
+        description: { type: string }
+    AgentActivity:
+      type: object
+      required: [id, agentName, action, timestamp]
+      properties:
+        id:        { type: string }
+        agentName: { type: string }
+        action:    { type: string }
+        detail:    { type: string }
+        timestamp: { type: string }
+        status:    { type: string, enum: [success, failed, running] }
+
+    # ── AUTH ──
+    AuthUser:
+      type: object
+      required: [id]
+      properties:
+        id:              { type: string }
+        email:           { type: string, nullable: true }
+        firstName:       { type: string, nullable: true }
+        lastName:        { type: string, nullable: true }
+        profileImageUrl: { type: string, nullable: true }
+    AuthUserEnvelope:
+      type: object
+      required: [user]
+      properties:
+        user:
+          nullable: true
+          oneOf:
+            - $ref: '#/components/schemas/AuthUser'
+            - type: 'null'
+    ExchangeMobileAuthorizationCodeBody:
+      type: object
+      required: [code, code_verifier, redirect_uri, state]
+      properties:
+        code:          { type: string }
+        code_verifier: { type: string }
+        redirect_uri:  { type: string }
+        state:         { type: string }
+        nonce:         { type: string, nullable: true }
+    ExchangeMobileAuthorizationCodeResponse:
+      type: object
+      required: [token]
+      properties:
+        token: { type: string }
+    LogoutMobileSessionResponse:
+      type: object
+      required: [success]
+      properties:
+        success: { type: boolean }
+
+  parameters:
+    AuthorizationSessionHeader:
+      name: Authorization
+      in: header
+      required: false
+      schema:
+        type: string
+        pattern: '^Bearer .+'
+    SessionCookie:
+      name: sid
+      in: cookie
+      required: false
+      schema:
+        type: string
