@@ -1,0 +1,21 @@
+# RALD.cloud — Robots.txt
+User-agent: *
+Allow: /
+Disallow: /control/
+Disallow: /control/*
+
+# Sitemap
+Sitemap: https://rald.cloud/sitemap.xml
+
+# AI crawlers - index public content
+User-agent: GPTBot
+Allow: /
+Disallow: /control/
+
+User-agent: ClaudeBot
+Allow: /
+Disallow: /control/
+
+User-agent: anthropic-ai
+Allow: /
+Disallow: /control/
