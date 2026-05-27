@@ -4,54 +4,54 @@ import { LandingNav } from "./shared";
 import SEOMeta from "@/components/SEOMeta";
 
 /* ── BRAND COLORS (canonical per-product palette) ────────────────────────
- * Loop Business      #00C97C  emerald    — growth, commerce, Africa green
- * PayRald            #38bdf8  sky blue   — trust, finance, clarity
- * Raldtics           #a78bfa  violet     — intelligence, AI, analytics
- * Loop Dispatch      #fb923c  orange     — energy, logistics, motion
- * Loop Voice         #f472b6  pink       — voice, human, warmth
- * RALD Identity      #22d3ee  cyan       — identity, security, precision
- * GitRald            #818cf8  indigo     — devtools, code, build
+ * Loop Business: #FF6A00 neon orange — enterprise commerce
+ * PayRald            #0066FF  sky blue   — trust, finance, clarity
+ * Raldtics           #FFD400  violet     — intelligence, AI, analytics
+ * Loop Dispatch      #FFD400  orange     — energy, logistics, motion
+ * Loop Voice         #FF4FAD  pink       — voice, human, warmth
+ * RALD Identity      #00E5FF  cyan       — identity, security, precision
+ * GitRald            #FF2E2E  indigo     — devtools, code, build
  * RALD SDK           #fbbf24  amber      — developer, API, integration
  * Control Center     #e2e8f0  slate      — platform, governance, control
- * Loop Messenger     #34d399  teal       — messaging, connection, speed
- * DunaRald           #f97316  orange     — discovery, commerce, vibrancy
+ * Loop Messenger     #FF7A00  teal       — messaging, connection, speed
+ * DunaRald           #A855F7  orange     — discovery, commerce, vibrancy
  * ─────────────────────────────────────────────────────────────────────── */
 
 const PRODUCTS = [
   {
     slug: "loop",        name: "Loop Business",   tagline: "Africa's Commerce OS",
     desc: "Sell online, manage inventory, accept payments — built for African merchants.",
-    accent: "#00C97C", cat: "Commerce",
+    accent: "#FF6A00", cat: "Commerce",
   },
   {
     slug: "payrald",     name: "PayRald",          tagline: "Move money at the speed of Africa",
     desc: "Intelligent multi-gateway routing across 10 Nigerian payment providers.",
-    accent: "#38bdf8", cat: "Payments",
+    accent: "#0066FF", cat: "Payments",
   },
   {
     slug: "raldtics",    name: "Raldtics",         tagline: "Data that moves markets",
     desc: "Real-time analytics and AI expansion scoring across 12 African regions.",
-    accent: "#a78bfa", cat: "Analytics",
+    accent: "#FFD400", cat: "Analytics",
   },
   {
     slug: "dispatch",    name: "Loop Dispatch",    tagline: "Last-mile, first class",
     desc: "Smart carrier selection across GIG, Sendbox, Kwik, and 7 more providers.",
-    accent: "#fb923c", cat: "Logistics",
+    accent: "#FFD400", cat: "Logistics",
   },
   {
     slug: "voice",       name: "Loop Voice",       tagline: "Voice infrastructure for builders",
     desc: "SIP trunking, IVR, and WebRTC calls with Nigerian language TTS.",
-    accent: "#f472b6", cat: "Voice",
+    accent: "#FF4FAD", cat: "Voice",
   },
   {
     slug: "identity",    name: "RALD Identity",    tagline: "One identity. Every surface.",
     desc: "BVN/NIN verification, face match, and SSO — NDPC compliant.",
-    accent: "#22d3ee", cat: "Identity",
+    accent: "#00E5FF", cat: "Identity",
   },
   {
     slug: "gitrald",     name: "GitRald",          tagline: "Where Africa ships",
     desc: "CI/CD and repo orchestration for 77+ Ostinato-Loop repositories.",
-    accent: "#818cf8", cat: "DevTools",
+    accent: "#FF2E2E", cat: "DevTools",
   },
   {
     slug: "sdk",         name: "RALD SDK",         tagline: "Build anything. Ship everywhere.",
@@ -66,12 +66,12 @@ const PRODUCTS = [
   {
     slug: "messenger",   name: "Loop Messenger",   tagline: "Team messaging built for African bandwidth",
     desc: "Offline-first E2E encrypted messaging, voice notes, and threads — works at 2G.",
-    accent: "#34d399", cat: "Messaging",
+    accent: "#FF7A00", cat: "Messaging",
   },
   {
     slug: "dunarald",    name: "DunaRald",         tagline: "Africa's discovery commerce platform",
     desc: "Where African creators, brands, and communities meet buyers. Shop drops, go viral.",
-    accent: "#f97316", cat: "Discovery",
+    accent: "#A855F7", cat: "Discovery",
   },
 ];
 
@@ -79,37 +79,37 @@ const AI_AGENTS = [
   {
     id: "atlas",   name: "Atlas",    role: "Expansion Intelligence",
     desc: "Analyses 12 African markets in real time. Identifies growth opportunities before they peak.",
-    color: "#00C97C", status: "active", pulseMs: 2000, tasks: "3 market scans/min",
+    color: "#00E5FF", status: "active", pulseMs: 2000, tasks: "3 market scans/min",
   },
   {
     id: "sentinel", name: "Sentinel", role: "Security & Compliance",
     desc: "NDPC watchdog and fraud detection. Monitors 10K+ transactions per second.",
-    color: "#22d3ee", status: "active", pulseMs: 1400, tasks: "0 threats today",
+    color: "#FF5722", status: "active", pulseMs: 1400, tasks: "0 threats today",
   },
   {
     id: "nova",    name: "Nova",     role: "Payment Routing",
     desc: "Selects the optimal gateway on every transaction. Learns from every failure.",
-    color: "#38bdf8", status: "active", pulseMs: 900, tasks: "12 routes optimised",
+    color: "#A855F7", status: "active", pulseMs: 900, tasks: "12 routes optimised",
   },
   {
     id: "forge",   name: "Forge",    role: "DevOps Automation",
     desc: "Owns CI/CD across 77 repos. Pushes green builds, flags regressions, deploys to CF.",
-    color: "#818cf8", status: "active", pulseMs: 3000, tasks: "77 repos monitored",
+    color: "#FF2E2E", status: "active", pulseMs: 3000, tasks: "77 repos monitored",
   },
   {
     id: "echo",    name: "Echo",     role: "Communications Layer",
     desc: "Orchestrates Loop Voice + Messenger. Handles NLP routing and smart transcription.",
-    color: "#f472b6", status: "idle",   pulseMs: 4000, tasks: "Standby",
+    color: "#00BFA5", status: "idle",   pulseMs: 4000, tasks: "Standby",
   },
   {
     id: "pulse",   name: "Pulse",    role: "Logistics Optimisation",
     desc: "Selects carriers, predicts delays, reroutes shipments — all before customers notice.",
-    color: "#fb923c", status: "active", pulseMs: 1800, tasks: "24 routes active",
+    color: "#FFD400", status: "active", pulseMs: 1800, tasks: "24 routes active",
   },
   {
     id: "lee",     name: "Lee",      role: "AI Orchestrator",
     desc: "Meta-agent that coordinates Atlas, Sentinel, Nova, Forge, Echo, and Pulse.",
-    color: "#fbbf24", status: "active", pulseMs: 2500, tasks: "6 agents managed",
+    color: "#0066FF", status: "active", pulseMs: 2500, tasks: "6 agents managed",
   },
 ];
 
@@ -149,17 +149,17 @@ export default function Products() {
         keywords="African cloud infrastructure, payments Africa, logistics Africa, DevOps Africa, RALD cloud"
         canonicalPath="/products"
       />
-      <LandingNav productName="" accentColor="#00C97C" />
+      <LandingNav productName="" accentColor="#00FF88" />
 
       <div className="relative pt-32 pb-16 px-6 md:px-12 max-w-6xl mx-auto">
-        <div className="absolute -top-20 left-1/2 -translate-x-1/2 w-[600px] h-[400px] rounded-full blur-3xl opacity-10 pointer-events-none" style={{ background: "radial-gradient(ellipse, #00C97C 0%, transparent 70%)" }} />
+        <div className="absolute -top-20 left-1/2 -translate-x-1/2 w-[600px] h-[400px] rounded-full blur-3xl opacity-10 pointer-events-none" style={{ background: "radial-gradient(ellipse, #00FF88 0%, transparent 70%)" }} />
 
         <div className="text-center mb-16">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/10 text-xs font-medium text-white/60 mb-6">
-            <Zap className="h-3 w-3 text-[#00C97C]" /> 11 products. One ecosystem.
+            <Zap className="h-3 w-3 text-[#00FF88]" /> 11 products. One ecosystem.
           </div>
           <h1 className="text-5xl md:text-6xl font-black tracking-tight mb-4">
-            <span className="text-white">RALD</span><span className="text-[#00C97C]">.cloud</span>
+            <span className="text-white">RALD</span><span className="text-[#00FF88]">.cloud</span>
           </h1>
           <p className="text-white/40 text-lg max-w-xl mx-auto">The unified African infrastructure platform. Pick the products you need, or use them all.</p>
         </div>
@@ -189,12 +189,12 @@ export default function Products() {
         {/* ── AI AGENTS ── */}
         <div className="mt-28">
           <div className="text-center mb-12">
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-[#00C97C]/20 text-xs font-medium text-[#00C97C]/80 mb-6 bg-[#00C97C]/5">
-              <div className="w-1.5 h-1.5 rounded-full bg-[#00C97C] animate-pulse" />
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-[#00FF88]/20 text-xs font-medium text-[#00FF88]/80 mb-6 bg-[#00FF88]/5">
+              <div className="w-1.5 h-1.5 rounded-full bg-[#00FF88] animate-pulse" />
               7 autonomous AI agents · live
             </div>
             <h2 className="text-4xl md:text-5xl font-black tracking-tight mb-4">
-              The <span className="text-[#00C97C]">intelligence</span> layer
+              The <span className="text-[#00FF88]">intelligence</span> layer
             </h2>
             <p className="text-white/40 text-lg max-w-2xl mx-auto">
               RALD.cloud doesn't just run infrastructure — it thinks. Seven specialized AI agents work 24/7 to optimize, protect, and scale every part of the ecosystem.
@@ -207,9 +207,9 @@ export default function Products() {
             <AgentOrb agent={AI_AGENTS[6]} />
           </div>
           <div className="mt-10 p-4 rounded-2xl border border-white/8 flex flex-wrap items-center justify-center gap-6 text-xs font-mono text-white/30" style={{ background: "rgba(255,255,255,0.015)" }}>
-            <span className="flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-[#00C97C] animate-pulse" />6 agents active</span>
+            <span className="flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-[#00FF88] animate-pulse" />6 agents active</span>
             <span>·</span><span>1 on standby</span><span>·</span><span>0 alerts</span><span>·</span>
-            <span className="text-[#00C97C]">all systems nominal</span>
+            <span className="text-[#00FF88]">all systems nominal</span>
           </div>
         </div>
 
@@ -218,7 +218,7 @@ export default function Products() {
           <div className="inline-flex flex-col items-center gap-4 p-8 rounded-2xl border border-white/10" style={{ background: "rgba(255,255,255,0.02)" }}>
             <p className="text-white/60 text-sm">Want early access to all 11 products?</p>
             <Link href="/referral">
-              <button className="px-6 py-2.5 rounded-full text-sm font-bold text-black bg-[#00C97C] hover:scale-105 transition-transform" data-testid="button-products-referral-cta">
+              <button className="px-6 py-2.5 rounded-full text-sm font-bold text-black bg-[#00FF88] hover:scale-105 transition-transform" data-testid="button-products-referral-cta">
                 Join with a Referral Code
               </button>
             </Link>
@@ -230,7 +230,7 @@ export default function Products() {
         <div className="max-w-5xl mx-auto">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6 text-xs text-white/30">
             <div className="flex flex-col items-center md:items-start gap-1">
-              <span className="font-black text-base text-white/70">RALD<span className="text-[#00C97C]">.cloud</span></span>
+              <span className="font-black text-base text-white/70">RALD<span className="text-[#00FF88]">.cloud</span></span>
               <span>Operated by <strong className="text-white/50">LILCKY STUDIO LIMITED</strong></span>
             </div>
             <div className="flex flex-wrap gap-6 justify-center">
