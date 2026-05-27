@@ -55,6 +55,7 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           command: pages deploy artifacts/rald-cloud/dist/public --project-name=rald-cloud --branch=${{ github.ref_name }}
+          packageManager: npm
 
       - name: Validate deployment
         run: |
