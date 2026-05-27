@@ -5,9 +5,9 @@ const config: ProductConfig = {
   name: "Loop Business",
   tagline: "Africa's Commerce OS.",
   description: "The all-in-one platform for African merchants to sell online, manage inventory, accept payments, and scale across borders — without the enterprise price tag.",
-  gradient: "linear-gradient(135deg, #00C97C 0%, #00a865 50%, #006b41 100%)",
-  glowColor: "#00C97C",
-  accentColor: "#00C97C",
+  gradient: "linear-gradient(135deg, #FF8A2A 0%, #FF6A00 50%, #CC5400 100%)",
+  glowColor: "#FF6A00",
+  accentColor: "#FF6A00",
   features: [
     { icon: "🏪", title: "Instant Storefront", desc: "Launch a fully branded online store in minutes. Custom domains, mobile-optimised, SEO-ready." },
     { icon: "📦", title: "Smart Inventory", desc: "Track stock across multiple locations in real-time. Auto-reorder alerts. Supplier management built in." },
