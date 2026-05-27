@@ -50,12 +50,10 @@ jobs:
           VITE_API_BASE_URL: https://api.rald.cloud
 
       - name: Deploy to Cloudflare Pages
-        uses: cloudflare/wrangler-action@v3
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy artifacts/rald-cloud/dist/public --project-name=rald-cloud --branch=${{ github.ref_name }}
-          packageManager: npm
+        run: npx wrangler@latest pages deploy artifacts/rald-cloud/dist/public --project-name=rald-cloud --branch=${{ github.ref_name }}
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
 
       - name: Validate deployment
         run: |
