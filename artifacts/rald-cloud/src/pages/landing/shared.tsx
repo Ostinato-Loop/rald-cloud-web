@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { RaldLogo } from "@/components/RaldLogo";
 import { Link } from "wouter";
 import { ArrowRight, Menu, X } from "lucide-react";
 
@@ -37,8 +38,9 @@ export function LandingNav({ productName, accentColor }: { productName: string; 
       style={{ borderBottom: `1px solid ${accentColor}18` }}
     >
       <Link href="/" data-testid="link-landing-home">
-        <span className="font-black text-lg tracking-tight text-white">
-          RALD<span style={{ color: accentColor }}>.cloud</span>
+        <span className="flex items-center gap-1">
+          <RaldLogo height={26} theme="dark" accentColor={accentColor} />
+          <span className="text-sm font-black" style={{ color: accentColor }}>.cloud</span>
         </span>
       </Link>
 
