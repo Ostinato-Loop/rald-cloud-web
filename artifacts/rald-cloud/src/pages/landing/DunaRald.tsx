@@ -6,9 +6,9 @@ const config: ProductConfig = {
   tagline: "Africa's discovery commerce platform.",
   description:
     "The platform where African creators, brands, and communities meet buyers. Shop drops, discover viral products, and support homegrown brands — all powered by RALD infrastructure.",
-  gradient: "linear-gradient(135deg, #f97316 0%, #ea580c 50%, #9a3412 100%)",
-  glowColor: "#f97316",
-  accentColor: "#f97316",
+  gradient: "linear-gradient(135deg, #A855F7 0%, #9333EA 50%, #7C22CE 100%)",
+  glowColor: "#A855F7",
+  accentColor: "#A855F7",
   features: [
     {
       icon: "🔥",
