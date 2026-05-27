@@ -5,9 +5,9 @@ const config: ProductConfig = {
   name: "Loop Dispatch",
   tagline: "Last-mile, first class.",
   description: "Nigeria's intelligent last-mile delivery aggregator. One API to book, track, and manage shipments across GIG, Sendbox, Kwik, Topship, DHL and 5 more carriers — automatically routed for speed and cost.",
-  gradient: "linear-gradient(135deg, #fb923c 0%, #f97316 50%, #c2410c 100%)",
-  glowColor: "#fb923c",
-  accentColor: "#fb923c",
+  gradient: "linear-gradient(135deg, #00BFFF 0%, #009FD4 50%, #0090CC 100%)",
+  glowColor: "#00BFFF",
+  accentColor: "#00BFFF",
   features: [
     { icon: "🚀", title: "Smart Carrier Selection", desc: "AI picks the best carrier per shipment based on destination, weight, SLA, and real-time capacity." },
     { icon: "📍", title: "Real-time Tracking", desc: "Live GPS updates every 2 minutes. Auto-SMS notifications to your customers. Zero manual follow-up." },
