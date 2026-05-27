@@ -5,9 +5,9 @@ const config: ProductConfig = {
   name: "GitRald",
   tagline: "Where Africa ships.",
   description: "CI/CD and repo orchestration purpose-built for the RALD ecosystem. Green CI on every commit, automated Cloudflare deployments, and cross-repo context management for 60+ services.",
-  gradient: "linear-gradient(135deg, #818cf8 0%, #6366f1 50%, #4338ca 100%)",
-  glowColor: "#818cf8",
-  accentColor: "#818cf8",
+  gradient: "linear-gradient(135deg, #FF2E2E 0%, #E02020 50%, #CC0000 100%)",
+  glowColor: "#FF2E2E",
+  accentColor: "#FF2E2E",
   features: [
     { icon: "⚡", title: "Zero-Config CI", desc: "Push to GitHub. CI runs automatically. Green checkmarks in under 90 seconds. No YAML expertise needed." },
     { icon: "🚀", title: "Auto-Deploy to CF", desc: "Every merge to main triggers a Cloudflare Pages or Worker deployment. Blue/green by default." },
