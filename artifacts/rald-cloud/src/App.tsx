@@ -1,9 +1,10 @@
-import { Switch, Route, Router as WouterRouter } from "wouter";
+import { Switch, Route, Router as WouterRouter, useLocation } from "wouter";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/not-found";
 import AuthGate from "@/components/AuthGate";
+import { useEffect } from "react";
 
 import EcosystemOverview from "./pages/EcosystemOverview";
 import ControlHub from "./pages/ControlHub";
@@ -34,60 +35,92 @@ import TermsOfService from "./pages/legal/TermsOfService";
 
 const queryClient = new QueryClient();
 
+/** Map from subdomain prefix → internal route path */
+const SUBDOMAIN_MAP: Record<string, string> = {
+  payrald: "/payrald",
+  raldtics: "/raldtics",
+  dunarald: "/dunarald",
+  business: "/loop",
+  dispatch: "/dispatch",
+  voice: "/voice",
+  loop: "/loop",
+  messenger: "/messenger",
+};
+
+function SubdomainRedirect() {
+  const [, navigate] = useLocation();
+  useEffect(() => {
+    const hostname = window.location.hostname;
+    // e.g. payrald.rald.cloud → subdomain = "payrald"
+    const parts = hostname.split(".");
+    if (parts.length >= 3) {
+      const sub = parts[0].toLowerCase();
+      const target = SUBDOMAIN_MAP[sub];
+      if (target && window.location.pathname === "/") {
+        navigate(target, { replace: true });
+      }
+    }
+  }, [navigate]);
+  return null;
+}
+
 function Router() {
   return (
-    <Switch>
-      {/* Public marketing routes */}
-      <Route path="/" component={Products} />
-      <Route path="/products" component={Products} />
-      <Route path="/loop" component={LoopBusiness} />
-      <Route path="/payrald" component={PayRald} />
-      <Route path="/raldtics" component={Raldtics} />
-      <Route path="/dispatch" component={LoopDispatch} />
-      <Route path="/voice" component={LoopVoice} />
-      <Route path="/identity" component={RALDIdentity} />
-      <Route path="/gitrald" component={GitRald} />
-      <Route path="/sdk" component={RALDSDK} />
-      <Route path="/console" component={RALDConsole} />
-      <Route path="/messenger" component={LoopMessenger} />
-      <Route path="/dunarald" component={DunaRald} />
-      <Route path="/referral" component={Referral} />
+    <>
+      <SubdomainRedirect />
+      <Switch>
+        {/* Public marketing routes */}
+        <Route path="/" component={Products} />
+        <Route path="/products" component={Products} />
+        <Route path="/loop" component={LoopBusiness} />
+        <Route path="/payrald" component={PayRald} />
+        <Route path="/raldtics" component={Raldtics} />
+        <Route path="/dispatch" component={LoopDispatch} />
+        <Route path="/voice" component={LoopVoice} />
+        <Route path="/identity" component={RALDIdentity} />
+        <Route path="/gitrald" component={GitRald} />
+        <Route path="/sdk" component={RALDSDK} />
+        <Route path="/console" component={RALDConsole} />
+        <Route path="/messenger" component={LoopMessenger} />
+        <Route path="/dunarald" component={DunaRald} />
+        <Route path="/referral" component={Referral} />
 
-      {/* Legal pages */}
-      <Route path="/privacy" component={PrivacyPolicy} />
-      <Route path="/terms" component={TermsOfService} />
+        {/* Legal pages */}
+        <Route path="/privacy" component={PrivacyPolicy} />
+        <Route path="/terms" component={TermsOfService} />
 
-      {/* Auth-gated control routes */}
-      <Route path="/control">
-        <AuthGate><EcosystemOverview /></AuthGate>
-      </Route>
-      <Route path="/control/hub">
-        <AuthGate><ControlHub /></AuthGate>
-      </Route>
-      <Route path="/control/repos">
-        <AuthGate><Repos /></AuthGate>
-      </Route>
-      <Route path="/control/deployments">
-        <AuthGate><Deployments /></AuthGate>
-      </Route>
-      <Route path="/control/payments">
-        <AuthGate><Payments /></AuthGate>
-      </Route>
-      <Route path="/control/logistics">
-        <AuthGate><Logistics /></AuthGate>
-      </Route>
-      <Route path="/control/secrets">
-        <AuthGate><Secrets /></AuthGate>
-      </Route>
-      <Route path="/control/expansion">
-        <AuthGate><Expansion /></AuthGate>
-      </Route>
-      <Route path="/control/agents">
-        <AuthGate><Agents /></AuthGate>
-      </Route>
+        {/* Auth-gated control routes */}
+        <Route path="/control">
+          <AuthGate><EcosystemOverview /></AuthGate>
+        </Route>
+        <Route path="/control/hub">
+          <AuthGate><ControlHub /></AuthGate>
+        </Route>
+        <Route path="/control/repos">
+          <AuthGate><Repos /></AuthGate>
+        </Route>
+        <Route path="/control/deployments">
+          <AuthGate><Deployments /></AuthGate>
+        </Route>
+        <Route path="/control/payments">
+          <AuthGate><Payments /></AuthGate>
+        </Route>
+        <Route path="/control/logistics">
+          <AuthGate><Logistics /></AuthGate>
+        </Route>
+        <Route path="/control/secrets">
+          <AuthGate><Secrets /></AuthGate>
+        </Route>
+        <Route path="/control/expansion">
+          <AuthGate><Expansion /></AuthGate>
+        </Route>
+        <Route path="/control/agents">
+          <AuthGate><Agents /></AuthGate>
+        </Route>
 
-      <Route component={NotFound} />
-    </Switch>
+        <Route component={NotFound} />
+      </Switch>
+    </>
   );
 }
 
