@@ -6,9 +6,9 @@ const config: ProductConfig = {
   tagline: "Team messaging built for African bandwidth.",
   description:
     "Real-time messaging that works at 2G. Thread-based channels, end-to-end encryption, and native voice notes — optimised for African connectivity and enterprise teams.",
-  gradient: "linear-gradient(135deg, #34d399 0%, #10b981 50%, #059669 100%)",
-  glowColor: "#34d399",
-  accentColor: "#34d399",
+  gradient: "linear-gradient(135deg, #FF7A00 0%, #E66D00 50%, #CC5500 100%)",
+  glowColor: "#FF7A00",
+  accentColor: "#FF7A00",
   features: [
     {
       icon: "📡",
