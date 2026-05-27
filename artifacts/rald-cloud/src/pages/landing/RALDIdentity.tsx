@@ -5,9 +5,9 @@ const config: ProductConfig = {
   name: "RALD Identity",
   tagline: "One identity. Every surface.",
   description: "Unified authentication and KYC for African applications. BVN verification, NIN lookup, face matching, and SSO — all from a single API that works offline-first.",
-  gradient: "linear-gradient(135deg, #22d3ee 0%, #06b6d4 50%, #0e7490 100%)",
-  glowColor: "#22d3ee",
-  accentColor: "#22d3ee",
+  gradient: "linear-gradient(135deg, #00E5FF 0%, #00BFDF 50%, #008FAF 100%)",
+  glowColor: "#00E5FF",
+  accentColor: "#00E5FF",
   features: [
     { icon: "🪪", title: "BVN & NIN Verification", desc: "Real-time BVN and NIN lookup via NIBSS. Sub-2 second verification. Works even on slow connections." },
     { icon: "🤳", title: "Face Match & Liveness", desc: "Compare selfie to BVN photo. ML-powered liveness detection. NDPC compliant data handling." },
