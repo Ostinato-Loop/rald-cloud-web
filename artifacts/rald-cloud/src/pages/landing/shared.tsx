@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { RaldLogo } from "@/components/RaldLogo";
 import { Link } from "wouter";
 import { ArrowRight, Menu, X } from "lucide-react";
+import SEOMeta, { makeSoftwareLd } from "@/components/SEOMeta";
 
 export interface ProductConfig {
   slug: string;
@@ -367,7 +368,17 @@ export function ProductLandingPage({ config }: { config: ProductConfig }) {
   }, [config]);
 
   return (
-    <div
+    <>
+      <SEOMeta
+        title={`${config.name} — ${config.tagline.replace(/\.$/, "")} | RALD.cloud`}
+        description={config.description}
+        keywords={`${config.name}, RALD, African commerce, ${config.slug}`}
+        canonicalPath={`/${config.slug}`}
+        productColor={config.accentColor}
+        productName={config.name}
+        jsonLd={productJsonLd}
+      />
+      <div
       className="min-h-screen bg-black text-white overflow-x-hidden"
       style={{ fontFamily: "Inter, sans-serif" }}
     >
