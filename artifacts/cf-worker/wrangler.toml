@@ -5,17 +5,42 @@ compatibility_flags = ["nodejs_compat"]
 
 [vars]
 ENVIRONMENT = "production"
-APP_VERSION = "1.0.0"
+APP_VERSION = "1.1.0"
 
-# Routes rald.cloud internal API — does NOT conflict with rald-api worker on api.rald.cloud
+# Primary: rald.cloud internal API routes
 [[routes]]
 pattern = "rald.cloud/api/*"
+zone_name = "rald.cloud"
+
+# Product subdomains — serve per-product SSR HTML for Googlebot crawlability
+[[routes]]
+pattern = "payrald.rald.cloud/*"
+zone_name = "rald.cloud"
+
+[[routes]]
+pattern = "raldtics.rald.cloud/*"
+zone_name = "rald.cloud"
+
+[[routes]]
+pattern = "dunarald.rald.cloud/*"
+zone_name = "rald.cloud"
+
+[[routes]]
+pattern = "dispatch.rald.cloud/*"
+zone_name = "rald.cloud"
+
+[[routes]]
+pattern = "voice.rald.cloud/*"
+zone_name = "rald.cloud"
+
+[[routes]]
+pattern = "business.rald.cloud/*"
+zone_name = "rald.cloud"
+
+[[routes]]
+pattern = "silicon.rald.cloud/*"
 zone_name = "rald.cloud"
 
 [env.staging]
 name = "rald-cloud-edge-staging"
 vars = { ENVIRONMENT = "staging" }
-
-[[env.staging.routes]]
-pattern = "api-staging.rald.cloud/*"
-zone_name = "rald.cloud"
