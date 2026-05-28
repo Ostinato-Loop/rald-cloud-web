@@ -76,14 +76,24 @@ export function LandingNav({ productName, accentColor }: { productName: string; 
         >
           Control Center
         </Link>
-        <button
-          onClick={() => {}}
-          className="px-4 py-1.5 rounded-full text-xs font-bold text-black transition-all hover:scale-105 hover:opacity-90"
-          style={{ background: accentColor }}
+        <a
+          href="https://app.rald.cloud"
+          className="text-xs font-semibold transition-colors"
+          style={{ color: "rgba(255,255,255,0.55)" }}
+          onMouseEnter={e => (e.currentTarget.style.color = accentColor)}
+          onMouseLeave={e => (e.currentTarget.style.color = "rgba(255,255,255,0.55)")}
+          data-testid="link-nav-signin"
+        >
+          Sign In
+        </a>
+        <a
+          href="https://app.rald.cloud"
+          className="px-4 py-1.5 rounded-full text-xs font-bold text-black transition-all hover:scale-105 hover:opacity-90 no-underline"
+          style={{ background: accentColor, color: "#000", textDecoration: "none" }}
           data-testid="button-nav-cta"
         >
           Get Early Access
-        </button>
+        </a>
       </div>
 
       <button
@@ -114,6 +124,14 @@ export function LandingNav({ productName, accentColor }: { productName: string; 
             </Link>
           ))}
           <div className="h-px my-2" style={{ background: `${accentColor}20` }} />
+          <a
+            href="https://app.rald.cloud"
+            className="py-2 px-2 transition-colors text-white/50"
+            style={{ color: accentColor, fontWeight: 700 }}
+            data-testid="link-mobile-signin"
+          >
+            Sign In →
+          </a>
           <Link
             href="/referral"
             className="py-2 px-2 transition-colors text-white/50"
@@ -161,14 +179,15 @@ export function WaitlistForm({
     try {
       const urlParams = new URLSearchParams(window.location.search);
       const referralCode = urlParams.get("ref") ?? undefined;
-      const res = await fetch("/api/referrals/waitlist", {
+      // Call api.rald.cloud directly — reliable across all product subdomains
+      const res = await fetch("https://api.rald.cloud/api/waitlist/join", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, name, productSlug, referralCode }),
+        body: JSON.stringify({ email, name, product: productSlug, referralCode }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error ?? "Failed");
-      setRefCode(data.myReferralCode ?? "");
+      setRefCode(data.myReferralCode ?? data.entry?.referral_code ?? "");
       setSubmitted(true);
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : "Something went wrong");
