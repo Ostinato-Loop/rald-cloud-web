@@ -81,7 +81,15 @@ app.post("/waitlist", async (c) => {
     if (error && error.code === "23505")
       return c.json({ ok: true, message: "Already on waitlist" });
     if (error) throw error;
-    return c.json({ ok: true, entry: data });
+    // Forward to central RALD API for user auto-creation and email
+    try {
+      await fetch("https://api.rald.cloud/api/waitlist/join", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, name, product: product ?? "rald.cloud", referralCode }),
+      });
+    } catch (e) { console.error("Central waitlist sync failed:", e); }
+    return c.json({ ok: true, entry: data, message: "You're on the waitlist!" });
   } catch (e: any) {
     return c.json({ error: e.message }, 500);
   }
