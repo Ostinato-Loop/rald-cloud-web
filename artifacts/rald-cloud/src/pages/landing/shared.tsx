@@ -367,6 +367,12 @@ export function ProductLandingPage({ config }: { config: ProductConfig }) {
     setMeta("twitter:description", config.description);
   }, [config]);
 
+  const productJsonLd = makeSoftwareLd(
+    config.name,
+    config.description,
+    `https://${config.slug}.rald.cloud`,
+  );
+
   return (
     <>
       <SEOMeta
@@ -604,5 +610,6 @@ export function ProductLandingPage({ config }: { config: ProductConfig }) {
         </div>
       </footer>
     </div>
+    </>
   );
 }
