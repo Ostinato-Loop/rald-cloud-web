@@ -41,6 +41,11 @@ zone_name = "rald.cloud"
 pattern = "silicon.rald.cloud/*"
 zone_name = "rald.cloud"
 
+# Manilla — intercepts 530 (dead origin) and serves maintenance redirect
+[[routes]]
+pattern = "manilla.rald.cloud/*"
+zone_name = "rald.cloud"
+
 [env.staging]
 name = "rald-cloud-edge-staging"
 vars = { ENVIRONMENT = "staging" }
