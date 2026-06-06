@@ -32,6 +32,7 @@ const PRODUCTS: Record<string, { name: string; tagline: string; description: str
   messenger: { name: "Loop Messenger",tagline: "Business messaging for Africa",             description: "Secure, fast, end-to-end encrypted messaging platform — built for African teams and merchants.", color: "#FF7A00", path: "/messenger" },
   silicon:   { name: "RALD Console",  tagline: "Developer infrastructure for Africa",       description: "Manage RALD services, deployments, and infrastructure from one unified developer console.", color: "#00E5FF", path: "/console" },
   console:   { name: "RALD Console",  tagline: "Developer infrastructure for Africa",       description: "Manage RALD services, deployments, and infrastructure from one unified developer console.", color: "#00E5FF", path: "/console" },
+  manilla:   { name: "Manilla",       tagline: "Your RALD digital hub",                     description: "Manilla is your all-in-one RALD digital services hub — manage your account, subscriptions, and connected RALD products from one place.", color: "#FF6A00", path: "/products/manilla" },
 };
 
 function productHtml(sub: string, canonical: string): string {
