@@ -1,0 +1,8 @@
+# Cloudflare Pages _redirects for rald.cloud
+# Note: /api/* routes are handled by the rald-cloud-edge CF Worker (rald.cloud/api/*),
+# so Worker traffic never reaches Pages. Only the SPA catch-all is needed here.
+
+# SPA catch-all — serve index.html for all non-asset client-side routes.
+# Required for deep-links: /payrald, /loop, /dispatch, /voice, /legal/*, etc.
+# Must be last — Cloudflare Pages matches rules top-to-bottom.
+/*  /index.html  200
