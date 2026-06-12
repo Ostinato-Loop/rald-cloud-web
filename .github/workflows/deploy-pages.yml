@@ -1,0 +1,62 @@
+name: Deploy — RALD.cloud › CF Pages
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'artifacts/rald-cloud/**'
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-rald-cloud-pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    name: Build & deploy to Cloudflare Pages
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Typecheck
+        run: pnpm --filter @workspace/rald-cloud run typecheck
+
+      - name: Build
+        run: pnpm --filter @workspace/rald-cloud run build
+        env:
+          BASE_PATH: /
+          NODE_ENV: production
+          VITE_RALD_AUTH_URL: https://auth.rald.cloud
+          VITE_API_BASE_URL: https://api.rald.cloud
+
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: d5a1cd03b76f467430034af64a7062fd
+          command: pages deploy artifacts/rald-cloud/dist/public --project-name=rald-cloud --branch=main
+
+      - name: Smoke test
+        run: |
+          sleep 15
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" https://app.rald.cloud)
+          echo "app.rald.cloud HTTP $STATUS"
+          [ "$STATUS" = "200" ] || echo "WARNING: expected 200, got $STATUS"
+
+      - name: Audit log
+        if: always()
+        run: echo "Deploy at $(date -u +%Y-%m-%dT%H:%M:%SZ) commit ${{ github.sha }} by ${{ github.actor }}"

@@ -1,0 +1,33 @@
+# Fly.io deployment config — RALD Cloud API (Node.js/Express)
+# Hostname: api.rald.cloud → CNAME loop to <app>.fly.dev  (CF Proxied)
+# This replaces the incorrect wrangler.toml — Express cannot run as a CF Worker
+# because it uses TCP PostgreSQL (pg/drizzle-orm), which requires Hyperdrive.
+
+app = "rald-cloud-api"
+primary_region = "jnb"  # Johannesburg — lowest latency for West/East Africa
+
+[build]
+  dockerfile = "artifacts/api-server/Dockerfile"
+
+[env]
+  NODE_ENV = "production"
+  PORT     = "8080"
+
+[http_service]
+  internal_port      = 8080
+  force_https        = true
+  auto_stop_machines = "stop"
+  auto_start_machines = true
+  min_machines_running = 1
+
+  [[http_service.checks]]
+    grace_period = "10s"
+    interval     = "30s"
+    method       = "GET"
+    path         = "/api/health"
+    timeout      = "5s"
+
+[[vm]]
+  size       = "shared-cpu-1x"
+  memory     = "512mb"
+  cpu_kind   = "shared"
