@@ -2,36 +2,46 @@ import { Switch, Route, Router as WouterRouter, useLocation } from "wouter";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { lazy, Suspense, useEffect } from "react";
 import NotFound from "@/pages/not-found";
 import AuthGate from "@/components/AuthGate";
-import { useEffect } from "react";
 
-import EcosystemOverview from "./pages/EcosystemOverview";
-import ControlHub from "./pages/ControlHub";
-import Repos from "./pages/Repos";
-import Deployments from "./pages/Deployments";
-import Payments from "./pages/Payments";
-import Logistics from "./pages/Logistics";
-import Secrets from "./pages/Secrets";
-import Expansion from "./pages/Expansion";
-import Agents from "./pages/Agents";
-import Referral from "./pages/Referral";
+// Lazy-load heavy pages for faster TTI
+const EcosystemOverview = lazy(() => import("./pages/EcosystemOverview"));
+const ControlHub        = lazy(() => import("./pages/ControlHub"));
+const Repos             = lazy(() => import("./pages/Repos"));
+const Deployments       = lazy(() => import("./pages/Deployments"));
+const Payments          = lazy(() => import("./pages/Payments"));
+const Logistics         = lazy(() => import("./pages/Logistics"));
+const Secrets           = lazy(() => import("./pages/Secrets"));
+const Expansion         = lazy(() => import("./pages/Expansion"));
+const Agents            = lazy(() => import("./pages/Agents"));
+const Referral          = lazy(() => import("./pages/Referral"));
 
-import Products from "./pages/landing/Products";
-import LoopBusiness from "./pages/landing/LoopBusiness";
-import PayRald from "./pages/landing/PayRald";
-import Raldtics from "./pages/landing/Raldtics";
-import LoopDispatch from "./pages/landing/LoopDispatch";
-import LoopVoice from "./pages/landing/LoopVoice";
-import RALDIdentity from "./pages/landing/RALDIdentity";
-import GitRald from "./pages/landing/GitRald";
-import RALDSDK from "./pages/landing/RALDSDK";
-import RALDConsole from "./pages/landing/RALDConsole";
-import LoopMessenger from "./pages/landing/LoopMessenger";
-import DunaRald from "./pages/landing/DunaRald";
+const Products          = lazy(() => import("./pages/landing/Products"));
+const LoopBusiness      = lazy(() => import("./pages/landing/LoopBusiness"));
+const PayRald           = lazy(() => import("./pages/landing/PayRald"));
+const Raldtics          = lazy(() => import("./pages/landing/Raldtics"));
+const LoopDispatch      = lazy(() => import("./pages/landing/LoopDispatch"));
+const LoopVoice         = lazy(() => import("./pages/landing/LoopVoice"));
+const RALDIdentity      = lazy(() => import("./pages/landing/RALDIdentity"));
+const GitRald           = lazy(() => import("./pages/landing/GitRald"));
+const RALDSDK           = lazy(() => import("./pages/landing/RALDSDK"));
+const RALDConsole       = lazy(() => import("./pages/landing/RALDConsole"));
+const LoopMessenger     = lazy(() => import("./pages/landing/LoopMessenger"));
+const DunaRald          = lazy(() => import("./pages/landing/DunaRald"));
+const Developers        = lazy(() => import("./pages/landing/Developers"));
 
-import PrivacyPolicy from "./pages/legal/PrivacyPolicy";
-import TermsOfService from "./pages/legal/TermsOfService";
+const PrivacyPolicy     = lazy(() => import("./pages/legal/PrivacyPolicy"));
+const TermsOfService    = lazy(() => import("./pages/legal/TermsOfService"));
+
+function PageLoader() {
+  return (
+    <div className="min-h-screen bg-black flex items-center justify-center">
+      <div className="w-7 h-7 rounded-full border-2 border-t-transparent animate-spin" style={{ borderColor: "#00FF88", borderTopColor: "transparent" }} />
+    </div>
+  );
+}
 
 const queryClient = new QueryClient();
 
@@ -45,6 +55,8 @@ const SUBDOMAIN_MAP: Record<string, string> = {
   voice: "/voice",
   loop: "/loop",
   messenger: "/messenger",
+  developers: "/developers",
+  dev: "/developers",
 };
 
 function SubdomainRedirect() {
@@ -68,58 +80,61 @@ function Router() {
   return (
     <>
       <SubdomainRedirect />
-      <Switch>
-        {/* Public marketing routes */}
-        <Route path="/" component={Products} />
-        <Route path="/products" component={Products} />
-        <Route path="/loop" component={LoopBusiness} />
-        <Route path="/payrald" component={PayRald} />
-        <Route path="/raldtics" component={Raldtics} />
-        <Route path="/dispatch" component={LoopDispatch} />
-        <Route path="/voice" component={LoopVoice} />
-        <Route path="/identity" component={RALDIdentity} />
-        <Route path="/gitrald" component={GitRald} />
-        <Route path="/sdk" component={RALDSDK} />
-        <Route path="/console" component={RALDConsole} />
-        <Route path="/messenger" component={LoopMessenger} />
-        <Route path="/dunarald" component={DunaRald} />
-        <Route path="/referral" component={Referral} />
+      <Suspense fallback={<PageLoader />}>
+        <Switch>
+          {/* Public marketing routes */}
+          <Route path="/" component={Products} />
+          <Route path="/products" component={Products} />
+          <Route path="/loop" component={LoopBusiness} />
+          <Route path="/payrald" component={PayRald} />
+          <Route path="/raldtics" component={Raldtics} />
+          <Route path="/dispatch" component={LoopDispatch} />
+          <Route path="/voice" component={LoopVoice} />
+          <Route path="/identity" component={RALDIdentity} />
+          <Route path="/gitrald" component={GitRald} />
+          <Route path="/sdk" component={RALDSDK} />
+          <Route path="/console" component={RALDConsole} />
+          <Route path="/messenger" component={LoopMessenger} />
+          <Route path="/dunarald" component={DunaRald} />
+          <Route path="/referral" component={Referral} />
+          <Route path="/developers" component={Developers} />
 
-        {/* Legal pages */}
-        <Route path="/privacy" component={PrivacyPolicy} />
-        <Route path="/terms" component={TermsOfService} />
+          {/* Legal pages */}
+          <Route path="/privacy" component={PrivacyPolicy} />
+          <Route path="/terms" component={TermsOfService} />
 
-        {/* Auth-gated control routes */}
-        <Route path="/control">
-          <AuthGate><EcosystemOverview /></AuthGate>
-        </Route>
-        <Route path="/control/hub">
-          <AuthGate><ControlHub /></AuthGate>
-        </Route>
-        <Route path="/control/repos">
-          <AuthGate><Repos /></AuthGate>
-        </Route>
-        <Route path="/control/deployments">
-          <AuthGate><Deployments /></AuthGate>
-        </Route>
-        <Route path="/control/payments">
-          <AuthGate><Payments /></AuthGate>
-        </Route>
-        <Route path="/control/logistics">
-          <AuthGate><Logistics /></AuthGate>
-        </Route>
-        <Route path="/control/secrets">
-          <AuthGate><Secrets /></AuthGate>
-        </Route>
-        <Route path="/control/expansion">
-          <AuthGate><Expansion /></AuthGate>
-        </Route>
-        <Route path="/control/agents">
-          <AuthGate><Agents /></AuthGate>
-        </Route>
+          {/* Auth-gated control routes */}
+          <Route path="/control">
+            <AuthGate><EcosystemOverview /></AuthGate>
+          </Route>
+          <Route path="/control/hub">
+            <AuthGate><ControlHub /></AuthGate>
+          </Route>
+          <Route path="/control/repos">
+            <AuthGate><Repos /></AuthGate>
+          </Route>
+          <Route path="/control/deployments">
+            <AuthGate><Deployments /></AuthGate>
+          </Route>
+          <Route path="/control/payments">
+            <AuthGate><Payments /></AuthGate>
+          </Route>
+          <Route path="/control/logistics">
+            <AuthGate><Logistics /></AuthGate>
+          </Route>
+          <Route path="/control/secrets">
+            <AuthGate><Secrets /></AuthGate>
+          </Route>
+          <Route path="/control/expansion">
+            <AuthGate><Expansion /></AuthGate>
+          </Route>
+          <Route path="/control/agents">
+            <AuthGate><Agents /></AuthGate>
+          </Route>
 
-        <Route component={NotFound} />
-      </Switch>
+          <Route component={NotFound} />
+        </Switch>
+      </Suspense>
     </>
   );
 }

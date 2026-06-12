@@ -31,6 +31,7 @@ export function LandingNav({ productName, accentColor }: { productName: string; 
     { slug: "console", name: "Control Center" },
     { slug: "messenger", name: "Loop Messenger" },
     { slug: "dunarald", name: "DunaRald" },
+    { slug: "developers", name: "Developer Platform" },
   ];
 
   return (
@@ -57,6 +58,16 @@ export function LandingNav({ productName, accentColor }: { productName: string; 
           Products
         </Link>
         <Link
+          href="/developers"
+          className="transition-colors"
+          style={{ color: "rgba(255,255,255,0.5)" }}
+          onMouseEnter={e => (e.currentTarget.style.color = accentColor)}
+          onMouseLeave={e => (e.currentTarget.style.color = "rgba(255,255,255,0.5)")}
+          data-testid="link-nav-developers"
+        >
+          Developers
+        </Link>
+        <Link
           href="/referral"
           className="transition-colors"
           style={{ color: "rgba(255,255,255,0.5)" }}
@@ -74,7 +85,7 @@ export function LandingNav({ productName, accentColor }: { productName: string; 
           onMouseLeave={e => (e.currentTarget.style.color = "rgba(255,255,255,0.5)")}
           data-testid="link-nav-control"
         >
-          Control Center
+          Control
         </Link>
         <a
           href="https://app.rald.cloud"
