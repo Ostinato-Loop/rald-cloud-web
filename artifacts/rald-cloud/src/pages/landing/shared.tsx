@@ -20,18 +20,21 @@ export interface ProductConfig {
 export function LandingNav({ productName, accentColor }: { productName: string; accentColor: string }) {
   const [open, setOpen] = useState(false);
   const products = [
-    { slug: "loop", name: "Loop Business" },
-    { slug: "payrald", name: "PayRald" },
-    { slug: "raldtics", name: "Raldtics" },
-    { slug: "dispatch", name: "Loop Dispatch" },
-    { slug: "voice", name: "Loop Voice" },
-    { slug: "identity", name: "RALD Identity" },
-    { slug: "gitrald", name: "GitRald" },
-    { slug: "sdk", name: "RALD SDK" },
-    { slug: "console", name: "Control Center" },
-    { slug: "messenger", name: "Loop Messenger" },
-    { slug: "dunarald", name: "DunaRald" },
-    { slug: "developers", name: "Developer Platform" },
+    { slug: "loop-social", name: "Loop",           href: "https://loop.rald.cloud",     external: true },
+    { slug: "rald-ai",     name: "RALD AI",        href: "https://ai.rald.cloud",        external: true },
+    { slug: "identity",    name: "RALD Identity",  href: "https://profiles.rald.cloud",  external: true },
+    { slug: "messenger",   name: "Loop Messenger",  href: "https://messenger.rald.cloud", external: true },
+    { slug: "loop",        name: "Loop Business" },
+    { slug: "payrald",     name: "PayRald" },
+    { slug: "raldtics",    name: "Raldtics" },
+    { slug: "dispatch",    name: "Loop Dispatch" },
+    { slug: "voice",       name: "Loop Voice" },
+    { slug: "dunarald",    name: "DunaRald" },
+    { slug: "gitrald",     name: "GitRALD" },
+    { slug: "sdk",         name: "RALD SDK" },
+    { slug: "console",     name: "RALD Console",   href: "https://console.rald.cloud",   external: true },
+    { slug: "rald-tv",     name: "RALD TV ↗",      soon: true },
+    { slug: "developers",  name: "Developer Platform" },
   ];
 
   return (
