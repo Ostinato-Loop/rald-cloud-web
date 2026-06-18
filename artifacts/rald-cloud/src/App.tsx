@@ -32,6 +32,7 @@ const RALDSDK           = lazy(() => import("./pages/landing/RALDSDK"));
 const RALDConsole       = lazy(() => import("./pages/landing/RALDConsole"));
 const LoopMessenger     = lazy(() => import("./pages/landing/LoopMessenger"));
 const DunaRald          = lazy(() => import("./pages/landing/DunaRald"));
+const RALDElimu         = lazy(() => import("./pages/landing/RALDElimu"));
 const Developers        = lazy(() => import("./pages/landing/Developers"));
 
 const PrivacyPolicy     = lazy(() => import("./pages/legal/PrivacyPolicy"));
@@ -57,6 +58,7 @@ const SUBDOMAIN_MAP: Record<string, string> = {
   voice: "/voice",
   loop: "/loop",
   messenger: "/messenger",
+  elimu: "/elimu",
   developers: "/developers",
   dev: "/developers",
 };
@@ -99,6 +101,7 @@ function Router() {
           <Route path="/console" component={RALDConsole} />
           <Route path="/messenger" component={LoopMessenger} />
           <Route path="/dunarald" component={DunaRald} />
+          <Route path="/elimu" component={RALDElimu} />
           <Route path="/referral" component={Referral} />
           <Route path="/developers" component={Developers} />
 
