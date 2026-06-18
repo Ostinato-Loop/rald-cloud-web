@@ -153,6 +153,12 @@ const PRODUCTS = [
   },
 ];
 
+const PRODUCT_ICONS: Record<string, string> = {
+  alia:     "/alia-icon.png",
+  payrald:  "/payrald-icon.png",
+  elimu:    "/elimu-icon.png",
+};
+
 const LAYERS = [
   {
     num: "01",
@@ -824,10 +830,13 @@ export default function Home() {
                   style={{ background: `${p.accent}05`, boxShadow: `inset 0 0 30px ${p.glow}` }}
                 />
                 <div
-                  className="relative w-10 h-10 rounded-xl flex items-center justify-center mb-4"
+                  className="relative w-10 h-10 rounded-xl flex items-center justify-center mb-4 overflow-hidden"
                   style={{ background: `${p.accent}10`, border: `1px solid ${p.accent}30` }}
                 >
-                  <p.icon className="w-5 h-5" style={{ color: p.accent }} />
+                  {PRODUCT_ICONS[p.id]
+                    ? <img src={PRODUCT_ICONS[p.id]} alt={p.name} className="w-8 h-8 object-contain" />
+                    : <p.icon className="w-5 h-5" style={{ color: p.accent }} />
+                  }
                 </div>
                 <div className="relative">
                   <div className="font-mono text-xs mb-1" style={{ color: `${p.accent}70` }}>
