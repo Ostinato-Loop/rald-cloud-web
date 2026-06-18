@@ -233,6 +233,14 @@ export default function RALDAlia() {
   const [resolving, setResolving] = useState(false);
   const [resolved, setResolved] = useState<string | null>(null);
 
+  /* Swap favicon to ALIA icon on this page */
+  useEffect(() => {
+    const links = document.querySelectorAll<HTMLLinkElement>('link[rel="icon"], link[rel="shortcut icon"]');
+    const prev = links[0]?.href ?? "";
+    links.forEach(l => { l.href = "/alia-icon.png"; });
+    return () => { links.forEach(l => { l.href = prev; }); };
+  }, []);
+
   const trustRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -421,6 +429,15 @@ export default function RALDAlia() {
             >
               <span className="w-1.5 h-1.5 rounded-full" style={{ background: ACCENT, animation: "pulse-glow 2s ease-in-out infinite" }} />
               Identity Layer · RALD OS
+            </div>
+
+            {/* Real ALIA logo */}
+            <div className="mb-7">
+              <img
+                src="/alia-wordmark.png"
+                alt="RALD ALIA"
+                style={{ height: 42, width: "auto", maxWidth: 260, objectFit: "contain" }}
+              />
             </div>
 
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-black leading-none tracking-tight mb-6">
