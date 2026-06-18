@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { Link } from "wouter";
-import { RaldLogo } from "@/components/RaldLogo";
+import raldWordmark from "/rald-wordmark.png";
+import raldIcon from "/rald-icon.png";
 import {
   ArrowRight, Menu, X, ChevronDown, Globe,
   Zap, Shield, Code2, Building2, GraduationCap,
@@ -546,7 +547,7 @@ export default function Home() {
         }}
       >
         <Link href="/" className="flex items-center gap-1">
-          <RaldLogo height={26} theme="dark" accentColor={ACCENT} />
+          <img src={raldWordmark} alt="RALD" style={{ height: 26, width: "auto", filter: "brightness(0) invert(1)" }} />
           <span className="text-sm font-black" style={{ color: ACCENT }}>.cloud</span>
         </Link>
 
@@ -1047,7 +1048,7 @@ export default function Home() {
           <div className="border-t border-white/5 pt-8 grid md:grid-cols-2 gap-8 items-end">
             <div>
               <div className="flex items-center gap-1 mb-3">
-                <RaldLogo height={22} theme="dark" accentColor={ACCENT} />
+                <img src={raldWordmark} alt="RALD" style={{ height: 22, width: "auto", filter: "brightness(0) invert(1)" }} />
                 <span className="text-sm font-black" style={{ color: ACCENT }}>.cloud</span>
               </div>
               <div className="flex flex-wrap gap-4 mt-4">
