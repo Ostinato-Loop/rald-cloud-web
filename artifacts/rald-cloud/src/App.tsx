@@ -19,6 +19,7 @@ const Agents            = lazy(() => import("./pages/Agents"));
 const Referral          = lazy(() => import("./pages/Referral"));
 
 const Home              = lazy(() => import("./pages/landing/Home"));
+const RALDAlia          = lazy(() => import("./pages/landing/RALDAlia"));
 const Products          = lazy(() => import("./pages/landing/Products"));
 const LoopBusiness      = lazy(() => import("./pages/landing/LoopBusiness"));
 const PayRald           = lazy(() => import("./pages/landing/PayRald"));
@@ -91,6 +92,7 @@ function Router() {
           <Route path="/raldtics" component={Raldtics} />
           <Route path="/dispatch" component={LoopDispatch} />
           <Route path="/voice" component={LoopVoice} />
+          <Route path="/alia" component={RALDAlia} />
           <Route path="/identity" component={RALDIdentity} />
           <Route path="/gitrald" component={GitRald} />
           <Route path="/sdk" component={RALDSDK} />
