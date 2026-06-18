@@ -59,6 +59,7 @@ jobs:
       - name: Build rald-cloud (smoke test)
         run: pnpm --filter @workspace/rald-cloud run build
         env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
           NODE_ENV: production
           BASE_PATH: /
           VITE_API_BASE_URL: https://api.rald.cloud
