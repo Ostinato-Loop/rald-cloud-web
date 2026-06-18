@@ -18,6 +18,7 @@ const Expansion         = lazy(() => import("./pages/Expansion"));
 const Agents            = lazy(() => import("./pages/Agents"));
 const Referral          = lazy(() => import("./pages/Referral"));
 
+const Home              = lazy(() => import("./pages/landing/Home"));
 const Products          = lazy(() => import("./pages/landing/Products"));
 const LoopBusiness      = lazy(() => import("./pages/landing/LoopBusiness"));
 const PayRald           = lazy(() => import("./pages/landing/PayRald"));
@@ -83,7 +84,7 @@ function Router() {
       <Suspense fallback={<PageLoader />}>
         <Switch>
           {/* Public marketing routes */}
-          <Route path="/" component={Products} />
+          <Route path="/" component={Home} />
           <Route path="/products" component={Products} />
           <Route path="/loop" component={LoopBusiness} />
           <Route path="/payrald" component={PayRald} />
