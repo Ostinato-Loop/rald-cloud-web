@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "wouter";
 import { ArrowRight, ChevronDown, ShoppingBag, Users, Mic, TrendingUp, X, Menu } from "lucide-react";
+import { useSEO } from "../../hooks/useSEO";
 
 const A="#00FF88", BG="#030F07", S="#050F0A";
 
@@ -19,6 +20,8 @@ const FEATURES=[
 
 export default function LoopBusiness(){
   const [sc,setSc]=useState(false),[nav,setNav]=useState(false),[active,setActive]=useState(0);
+    useSEO({title:"Loop Business — Sell Online and Grow Your African Business | RALD.cloud",description:"Loop Business is Africa's social commerce platform. Sell products, collect payments, build a community and go live — all from your phone. Used by entrepreneurs in Lagos, Nairobi, Accra and beyond.",url:"https://rald.cloud/loop",themeColor:"#00FF88",product:{name:"Loop Business",applicationCategory:"BusinessApplication",operatingSystem:"Web, Android, iOS",offers:{price:"0",priceCurrency:"NGN"}}});
+
   useEffect(()=>{const h=()=>setSc(window.scrollY>40);window.addEventListener("scroll",h);return()=>window.removeEventListener("scroll",h);},[]);
   useEffect(()=>{const t=setInterval(()=>setActive(a=>(a+1)%STORIES.length),3000);return()=>clearInterval(t);},[]);
   return(
