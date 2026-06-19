@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "wouter";
 import { ArrowRight, ChevronDown, Mic, Globe, Shield, Cpu } from "lucide-react";
+import { useSEO } from "../../hooks/useSEO";
 
 const A="#FF4FAD", BG="#0F0008", S="#130009";
 
@@ -19,6 +20,8 @@ const FEATURES=[
 
 export default function LoopVoice(){
   const [sc,setSc]=useState(false),[active,setActive]=useState(0);
+    useSEO({title:"Loop Voice — African Language Voice AI for Apps and Systems | RALD.cloud",description:"Loop Voice provides voice AI infrastructure in 24 African languages including Yoruba, Hausa, Igbo, Swahili, Zulu and Twi. Build IVR systems, voice apps and automated phone services. Works on 2G.",url:"https://rald.cloud/voice",themeColor:"#FF4FAD",product:{name:"Loop Voice",applicationCategory:"DeveloperApplication",operatingSystem:"Web"}});
+
   useEffect(()=>{const h=()=>setSc(window.scrollY>40);window.addEventListener("scroll",h);return()=>window.removeEventListener("scroll",h);},[]);
   useEffect(()=>{const t=setInterval(()=>setActive(a=>(a+1)%STORIES.length),3200);return()=>clearInterval(t);},[]);
   return(
