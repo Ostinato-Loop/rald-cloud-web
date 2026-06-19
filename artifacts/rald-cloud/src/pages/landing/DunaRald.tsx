@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Link } from "wouter";
 import { ArrowRight, ChevronDown, TrendingUp, Shield, Wallet, PiggyBank } from "lucide-react";
+import { useSEO } from "../../hooks/useSEO";
 
 const A="#A855F7", BG="#080310", S="#0A0414";
 
@@ -21,6 +22,8 @@ export default function DunaRald(){
   const [sc,setSc]=useState(false),[active,setActive]=useState(0);
   const ref=useRef<HTMLDivElement>(null);
   const [vis,setVis]=useState(false);
+    useSEO({title:"DunaRald — Save Your Naira and Earn Up to 19% APY | RALD.cloud",description:"DunaRald is Nigeria's highest-yield savings platform. Save your naira, earn 19% APY, invest in T-Bills, and withdraw any time. NDIC insured. No lock-up periods.",url:"https://rald.cloud/dunarald",themeColor:"#A855F7",product:{name:"DunaRald",applicationCategory:"FinanceApplication",operatingSystem:"Web, Android, iOS",offers:{price:"0",priceCurrency:"NGN"}}});
+
   useEffect(()=>{const h=()=>setSc(window.scrollY>40);window.addEventListener("scroll",h);return()=>window.removeEventListener("scroll",h);},[]);
   useEffect(()=>{const t=setInterval(()=>setActive(a=>(a+1)%STORIES.length),3200);return()=>clearInterval(t);},[]);
   useEffect(()=>{
