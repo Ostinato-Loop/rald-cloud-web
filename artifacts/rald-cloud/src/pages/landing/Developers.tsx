@@ -1,438 +1,476 @@
-import { useState, useEffect } from "react";
-import { LandingNav, GradientBlob, FeatureCard, StatBadge } from "./shared";
-import { ArrowRight, Lock, Code2, Key, Webhook, BarChart3, Shield, Globe, Zap } from "lucide-react";
-import SEOMeta from "@/components/SEOMeta";
+import { useState, useEffect, useRef } from "react";
+import { Link } from "wouter";
+import { ChevronDown, ArrowRight, Code2, Key, Webhook, Shield, Globe, Zap, BookOpen, Terminal, Layers, CheckCircle } from "lucide-react";
+import { useSEO } from "../../hooks/useSEO";
 
-const ACCENT = "#00FF88";
-const GLOW = "#00FF88";
-const GRADIENT = "linear-gradient(135deg, #00FF88 0%, #00cc6a 50%, #00994f 100%)";
+const BG = "#050A0F", S = "#070D14", RED = "#FF2E2E";
 
-const FEATURES = [
-  {
-    icon: "🪪",
-    title: "Developer Identity",
-    desc: "Every RALD account becomes a developer account. One identity across the ecosystem. No separate registration — your RALD ID is your developer ID.",
-  },
-  {
-    icon: "🔑",
-    title: "Master API Key",
-    desc: "Every verified developer receives a RALD Master API Key (rk_live_...). Your root credential for identity access, authentication, and session validation.",
-  },
-  {
-    icon: "⚡",
-    title: "4 Key Types",
-    desc: "Create MASTER, PRODUCT, WORKSPACE, and SERVICE keys. Each scoped to the right level — from personal access to machine-to-machine integrations and AI agents.",
-  },
-  {
-    icon: "🏗️",
-    title: "Application Registry",
-    desc: "Register your apps with callback URLs, environment configs, and lifecycle management. Separate credentials and limits for Development, Test, and Production.",
-  },
-  {
-    icon: "🔔",
-    title: "Webhook System",
-    desc: "Subscribe to ecosystem events: user.created, session.started, trust.changed, business.created, room.created, and future events from every RALD product.",
-  },
-  {
-    icon: "📋",
-    title: "Audit Logs",
-    desc: "Full audit trail of every API call, key creation, rotation, revocation, and permission change. Webhook delivery logs. Export for compliance.",
-  },
-  {
-    icon: "🛡️",
-    title: "Trust Level System",
-    desc: "5 trust levels from Personal Developer to RALD Certified Partner. Trust determines rate limits, product access, advanced APIs, and production approval.",
-  },
-  {
-    icon: "🌍",
-    title: "Country Framework",
-    desc: "API access follows the RALD country activation framework. When your country activates, your developer access expands automatically — no reapplication.",
-  },
-  {
-    icon: "🤝",
-    title: "Partner Ecosystem",
-    desc: "Build on Loop, Messenger, RALD Mail, PayRald, GitRald, Raldtics, RALD AI and every future product from day one. One account. One ecosystem.",
-  },
+const APIS = [
+  { name:"Identity API",    product:"RALD ALIA",       color:"#00E5FF", emoji:"🪪", desc:"Verify users with BVN/NIN, issue ALIA aliases, query trust scores and manage consent in real-time.",
+    endpoints:["POST /identity/verify","GET /identity/{alias}","POST /identity/trust","DELETE /identity/session"] },
+  { name:"Payments API",    product:"PayRald",          color:"#0066FF", emoji:"💳", desc:"Accept payments, create wallets, split transactions, handle settlements and trigger refunds across 10+ gateways.",
+    endpoints:["POST /payments/charge","GET /payments/{id}","POST /payments/refund","POST /wallets/transfer"] },
+  { name:"Messaging API",   product:"Loop Messenger",   color:"#FF7A00", emoji:"💬", desc:"Send messages, create group threads, trigger in-chat payment requests and read delivery status.",
+    endpoints:["POST /messages/send","GET /threads/{id}","POST /messages/pay","GET /messages/status"] },
+  { name:"Mail API",        product:"RALD Mail",        color:"#00E5FF", emoji:"📧", desc:"Send transactional emails, manage templates, track open rates and configure domain authentication.",
+    endpoints:["POST /mail/send","GET /mail/status/{id}","POST /mail/templates","GET /mail/analytics"] },
+  { name:"Voice API",       product:"Loop Voice",       color:"#FF4FAD", emoji:"🎙", desc:"Synthesise speech in 24 African languages, build IVR trees and transcribe audio from any call.",
+    endpoints:["POST /voice/speak","POST /voice/ivr","POST /voice/transcribe","GET /voice/languages"] },
+  { name:"Analytics API",   product:"Raldtics",        color:"#FFD400", emoji:"📊", desc:"Track custom events, query funnels, retrieve user segments and export cohort data.",
+    endpoints:["POST /analytics/track","POST /analytics/funnel","GET /analytics/cohort","GET /analytics/realtime"] },
+  { name:"Logistics API",   product:"Loop Dispatch",   color:"#00BFFF", emoji:"🚚", desc:"Create shipments, get carrier quotes, track deliveries and receive proof-of-delivery webhooks.",
+    endpoints:["POST /logistics/ship","GET /logistics/quote","GET /logistics/track/{id}","GET /logistics/proof"] },
+  { name:"Education API",   product:"RALD Elimu",      color:"#A855F7", emoji:"🏫", desc:"Manage student records, mark attendance, trigger fee payment requests and sync with parent accounts.",
+    endpoints:["POST /elimu/students","POST /elimu/attendance","POST /elimu/fee-request","GET /elimu/school/{id}"] },
 ];
 
-const STATS = [
-  { value: "1", label: "Identity for everything" },
-  { value: "4", label: "API key types" },
-  { value: "5", label: "Trust levels" },
-  { value: "∞", label: "Products to build on" },
+const SNIPPETS: Record<string, string> = {
+  identity: `import { RALDClient } from "@rald/sdk";
+const rald = new RALDClient({ apiKey: process.env.RALD_KEY });
+
+// Verify a user's identity
+const identity = await rald.identity.verify({
+  phone: "+2348012345678",
+  bvn:   "12345678901",
+  liveness: { selfie: selfieBase64 }
+});
+
+// { alias: "@chidi.rald", trustScore: 94, verified: true }
+console.log(identity.alias); // @chidi.rald`,
+
+  payments: `import { RALDClient } from "@rald/sdk";
+const rald = new RALDClient({ apiKey: process.env.RALD_KEY });
+
+// Charge a customer — auto gateway routing
+const charge = await rald.payments.charge({
+  amount:   12500,          // ₦125.00
+  currency: "NGN",
+  customer: { alias: "@chidi.rald" },
+  meta:     { orderId: "ORD-9821" }
+});
+
+// Routed to Paystack (97.2% success) in 187ms
+console.log(charge.status); // "success"`,
+
+  messaging: `import { RALDClient } from "@rald/sdk";
+const rald = new RALDClient({ apiKey: process.env.RALD_KEY });
+
+// Send a message with an attached payment
+const msg = await rald.messaging.send({
+  to:      "@fatima.rald",
+  body:    "Here's the ₦15,000 I owe you 🙏",
+  payment: { amount: 15000, currency: "NGN" }
+});
+
+// Delivered in 840ms. Payment settled instantly.
+console.log(msg.delivered); // true`,
+
+  mail: `import { RALDClient } from "@rald/sdk";
+const rald = new RALDClient({ apiKey: process.env.RALD_KEY });
+
+// Send a transactional email
+await rald.mail.send({
+  to:       "customer@example.com",
+  template: "payment-receipt",
+  data:     { name: "Adaeze", amount: "₦12,500", ref: "TXN-001" }
+});
+
+// Delivered in 412ms · 99.7% inbox rate · Lagos relay`,
+};
+
+const LAYERS = [
+  { name: "Identity",      desc: "RALD ALIA trust network",                   color: "#00E5FF", icon: "🪪" },
+  { name: "Auth",          desc: "API keys, OAuth 2.0, PKCE flows",           color: "#A855F7", icon: "🔑" },
+  { name: "Gateway",       desc: "Request routing, rate-limiting, versioning", color: "#00FF88", icon: "🔀" },
+  { name: "Products",      desc: "8 API surfaces across the RALD OS",         color: "#FFD400", icon: "⚡" },
+  { name: "Events",        desc: "Webhooks, event bus, real-time streams",     color: "#FF7A00", icon: "📡" },
+  { name: "Infrastructure",desc: "Lagos + Nairobi servers, Cloudflare edge",  color: "#00BFFF", icon: "🌍" },
 ];
 
-const KEY_TYPES = [
-  {
-    type: "MASTER",
-    prefix: "rk_live_",
-    color: "#00FF88",
-    desc: "Ecosystem root. Acts as identity anchor. Generates product keys.",
-    capabilities: ["Identity Lookup", "Authentication", "User Verification", "Username Resolution", "Session Validation", "Trust Validation"],
-  },
-  {
-    type: "PRODUCT",
-    prefix: "rp_live_",
-    color: "#60a5fa",
-    desc: "Product-scoped. Loop, Messenger, Mail, PayRald, GitRald, and more.",
-    capabilities: ["Product API Access", "User Context", "Event Streams", "Webhooks"],
-  },
-  {
-    type: "WORKSPACE",
-    prefix: "rw_live_",
-    color: "#a78bfa",
-    desc: "Organization-scoped. Isolated API assets per business entity.",
-    capabilities: ["Team Access", "Org Billing", "Shared Resources", "Member Management"],
-  },
-  {
-    type: "SERVICE",
-    prefix: "rs_live_",
-    color: "#f59e0b",
-    desc: "Machine-to-machine. Background jobs, server integrations, AI agents.",
-    capabilities: ["Server Auth", "Background Jobs", "AI Agent Auth", "Cron Integrations"],
-  },
+const SDKS = [
+  { lang:"Node.js",  install:"npm install @rald/sdk",       badge:"#339933" },
+  { lang:"Python",   install:"pip install rald-sdk",         badge:"#3776AB" },
+  { lang:"PHP",      install:"composer require rald/sdk",    badge:"#777BB4" },
+  { lang:"Go",       install:"go get github.com/rald/sdk",   badge:"#00ADD8" },
 ];
-
-function WaitlistForm() {
-  const [email, setEmail] = useState("");
-  const [name, setName] = useState("");
-  const [submitted, setSubmitted] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!email) return;
-    setLoading(true);
-    setError("");
-    try {
-      const res = await fetch("https://api.rald.cloud/api/waitlist/join", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, name, product: "developer-beta" }),
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error ?? "Failed");
-      setSubmitted(true);
-    } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : "Something went wrong");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  if (submitted) {
-    return (
-      <div
-        className="rounded-2xl border p-8 text-center max-w-md mx-auto"
-        style={{ background: `${ACCENT}08`, borderColor: `${ACCENT}30` }}
-      >
-        <div className="text-3xl font-black mb-2" style={{ color: ACCENT }}>
-          Application received.
-        </div>
-        <p className="text-white/50 text-sm">
-          Developer beta is invite-only. We'll reach out when your slot opens. Follow{" "}
-          <span style={{ color: ACCENT }}>@rald_cloud</span> for updates.
-        </p>
-      </div>
-    );
-  }
-
-  return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-3 max-w-md mx-auto">
-      <div className="flex gap-3">
-        <input
-          type="text"
-          placeholder="Your name"
-          value={name}
-          onChange={e => setName(e.target.value)}
-          className="rounded-xl px-4 py-3 text-sm text-white placeholder-white/30 focus:outline-none w-full sm:w-36 transition-all"
-          style={{
-            background: "rgba(255,255,255,0.04)",
-            border: "1px solid rgba(255,255,255,0.08)",
-          }}
-          onFocus={e => (e.currentTarget.style.borderColor = `${ACCENT}60`)}
-          onBlur={e => (e.currentTarget.style.borderColor = "rgba(255,255,255,0.08)")}
-        />
-        <input
-          type="email"
-          placeholder="your@email.com"
-          value={email}
-          onChange={e => setEmail(e.target.value)}
-          className="rounded-xl px-4 py-3 text-sm text-white placeholder-white/30 focus:outline-none flex-1 transition-all"
-          style={{
-            background: "rgba(255,255,255,0.04)",
-            border: "1px solid rgba(255,255,255,0.08)",
-          }}
-          onFocus={e => (e.currentTarget.style.borderColor = `${ACCENT}60`)}
-          onBlur={e => (e.currentTarget.style.borderColor = "rgba(255,255,255,0.08)")}
-          required
-        />
-      </div>
-      <button
-        type="submit"
-        disabled={loading || !email}
-        className="w-full px-6 py-3 rounded-xl text-sm font-bold text-black flex items-center justify-center gap-2 disabled:opacity-50 hover:scale-105 active:scale-95 transition-transform"
-        style={{ background: ACCENT }}
-      >
-        {loading ? "Submitting…" : "Apply for Developer Beta"}
-        {!loading && <ArrowRight className="h-4 w-4" />}
-      </button>
-      {error && <p className="text-xs text-red-400 text-center">{error}</p>}
-      <p className="text-xs text-white/25 text-center">
-        Invite-only · Admin approval required · No auto-provisioning during closed beta
-      </p>
-    </form>
-  );
-}
 
 export default function Developers() {
+  const [sc, setSc] = useState(false);
+  const [activeApi, setActiveApi] = useState(0);
+  const [activeTab, setActiveTab] = useState<keyof typeof SNIPPETS>("identity");
+  const [visLayer, setVisLayer] = useState(false);
+  const layerRef = useRef<HTMLDivElement>(null);
+
+  useSEO({
+    title: "Developer Portal — Build on RALD OS | RALD.cloud",
+    description: "RALD provides 8 API surfaces across identity, payments, messaging, email, voice, analytics, logistics and education. One SDK, one key, all of Africa's infrastructure.",
+    url: "https://rald.cloud/developers",
+    themeColor: "#00FF88",
+    product: { name: "RALD Developer Platform", applicationCategory: "DeveloperApplication", operatingSystem: "Web" },
+  });
+
+  useEffect(() => { const h = () => setSc(window.scrollY > 40); window.addEventListener("scroll", h); return () => window.removeEventListener("scroll", h); }, []);
   useEffect(() => {
-    document.title = "RALD Developer Platform — Build on Africa's Identity Layer";
+    const el = layerRef.current; if (!el) return;
+    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) setVisLayer(true); }, { threshold: 0.2 });
+    obs.observe(el); return () => obs.disconnect();
   }, []);
 
+  const api = APIS[activeApi];
+
   return (
-    <>
-      <SEOMeta
-        title="RALD Developer Platform — Build on Africa's Identity Layer"
-        description="The master identity layer for users, businesses, developers, partners, and AI agents across Africa. One RALD account. One developer profile. One ecosystem."
-        keywords="RALD developer, API, African developer platform, identity API, developer beta"
-        canonicalPath="/developers"
-        productColor={ACCENT}
-        productName="RALD Developer Platform"
-      />
-      <div className="min-h-screen bg-black text-white overflow-x-hidden" style={{ fontFamily: "Inter, sans-serif" }}>
-        <LandingNav productName="Developer Platform" accentColor={ACCENT} />
+    <div style={{ background: BG, color: "#E8EDF3", minHeight: "100vh", fontFamily: "system-ui,sans-serif" }}>
+      <style>{`
+        @keyframes dup{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+        @keyframes dp{0%,100%{opacity:.35}50%{opacity:1}}
+        @keyframes cursor{0%,100%{opacity:1}50%{opacity:0}}
+        @keyframes slideIn{from{opacity:0;transform:translateX(-8px)}to{opacity:1;transform:translateX(0)}}
+        .devcode{font-family:ui-monospace,"Cascadia Code",monospace;font-size:12.5px;line-height:1.85;white-space:pre}
+        .devcard{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:14px;transition:all .22s}
+        .devcard:hover{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.13);transform:translateY(-2px)}
+        .apicard{border-radius:14px;transition:all .22s;cursor:pointer}
+        .snippet-enter{animation:slideIn .25s ease forwards}
+      `}</style>
 
-        {/* ── HERO ── */}
-        <section className="relative pt-40 pb-24 px-6 md:px-12 text-center max-w-5xl mx-auto">
-          <GradientBlob color={GLOW} className="w-[700px] h-[700px] -top-60 left-1/2 -translate-x-1/2" />
+      {/* NAV */}
+      <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-5 md:px-12 h-16 transition-all"
+        style={{ background: sc ? `${BG}F2` : "transparent", backdropFilter: sc ? "blur(16px)" : "none", borderBottom: sc ? "1px solid rgba(255,255,255,.06)" : "1px solid transparent" }}>
+        <Link href="/"><img src="/rald-wordmark.png" alt="RALD" style={{ height: 20, filter: "brightness(0) invert(1)" }} /></Link>
+        <div className="hidden md:flex items-center gap-6 text-sm" style={{ color: "rgba(255,255,255,.4)" }}>
+          {[["Products", "/products"], ["ALIA", "/alia"], ["PayRald", "/payrald"], ["Privacy", "/privacy"]].map(([l, h]) => (
+            <Link key={l} href={h} className="hover:text-white/70 transition-colors">{l}</Link>
+          ))}
+        </div>
+      </nav>
 
-          <div
-            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border text-xs font-semibold mb-8"
-            style={{ borderColor: `${ACCENT}40`, color: ACCENT, background: `${ACCENT}10` }}
-          >
-            <Lock className="h-3 w-3" />
-            Closed Beta — Invite Only
-          </div>
+      <main>
+        {/* ── HERO ─────────────────────────────────────────────── */}
+        <section aria-label="Hero" className="relative min-h-screen flex flex-col items-center justify-center text-center px-5 pt-20 pb-16 overflow-hidden" style={{ animation: "dup .7s ease forwards" }}>
+          <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: `linear-gradient(rgba(0,255,136,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,255,136,.025) 1px,transparent 1px)`, backgroundSize: "52px 52px" }} />
+          <div className="absolute pointer-events-none" style={{ top: "45%", left: "50%", transform: "translate(-50%,-50%)", width: 600, height: 600, background: "radial-gradient(circle,rgba(0,255,136,.05) 0%,transparent 65%)" }} />
 
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tight leading-[0.9] mb-6">
-            <span className="text-white">Build on</span>
-            <br />
-            <span
-              style={{
-                background: GRADIENT,
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                backgroundClip: "text",
-              }}
-            >
-              RALD Identity.
-            </span>
-          </h1>
-
-          <p className="text-xl md:text-2xl font-semibold mb-4 max-w-2xl mx-auto" style={{ color: "rgba(255,255,255,0.55)" }}>
-            The master identity layer for users, businesses, developers, and AI agents across Africa.
-          </p>
-          <p className="text-white/30 text-sm mb-12 max-w-xl mx-auto leading-relaxed">
-            One RALD account becomes your developer profile. One API key unlocks the entire ecosystem.
-            Developers build once. Integrate everywhere.
-          </p>
-
-          <WaitlistForm />
-        </section>
-
-        {/* ── STATS ── */}
-        <section
-          className="relative py-16 px-6 md:px-12"
-          style={{ borderTop: `1px solid ${ACCENT}15`, borderBottom: `1px solid ${ACCENT}15` }}
-        >
-          <div className="relative max-w-3xl mx-auto flex flex-wrap items-center justify-center gap-x-0 gap-y-6">
-            {STATS.map((s, i) => (
-              <div key={i} className="flex items-center">
-                <StatBadge value={s.value} label={s.label} accentColor={ACCENT} />
-                {i < STATS.length - 1 && (
-                  <div className="hidden sm:block h-10 w-px mx-2" style={{ background: `${ACCENT}20` }} />
-                )}
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* ── API KEY TYPES ── */}
-        <section className="py-24 px-6 md:px-12 max-w-5xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-black mb-3">
-              <span className="text-white">The </span>
-              <span style={{ background: GRADIENT, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
-                Key System.
-              </span>
-            </h2>
-            <p className="text-white/35 text-sm max-w-md mx-auto">
-              Four key types. Every access pattern covered.
+          <div className="relative z-10">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold mb-8" style={{ background: "rgba(0,255,136,.1)", border: "1px solid rgba(0,255,136,.28)", color: "#00FF88" }}>
+              <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#00FF88", display: "inline-block", animation: "dp 2s ease-in-out infinite" }} />
+              RALD Developer Platform · 8 API surfaces
+            </div>
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-black leading-none tracking-tight mb-6" style={{ maxWidth: 780, margin: "0 auto 24px" }}>
+              Build on Africa's<br />
+              <span style={{ background: "linear-gradient(135deg,#00FF88,#00E5FF)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>digital infrastructure.</span>
+            </h1>
+            <p className="text-lg md:text-xl mb-10" style={{ color: "rgba(255,255,255,.5)", maxWidth: 560, margin: "0 auto 40px", lineHeight: 1.7 }}>
+              One SDK. One API key. Access identity, payments, messaging, voice, email, analytics, logistics and education — for every African market.
             </p>
+
+            {/* Terminal preview */}
+            <div className="rounded-2xl overflow-hidden mx-auto max-w-xl text-left" style={{ border: "1px solid rgba(0,255,136,.2)", background: "rgba(0,0,0,.7)" }}>
+              <div className="flex items-center gap-2 px-5 py-3 border-b border-white/5">
+                <span className="w-3 h-3 rounded-full" style={{ background: "#FF5F57" }} />
+                <span className="w-3 h-3 rounded-full" style={{ background: "#FEBC2E" }} />
+                <span className="w-3 h-3 rounded-full" style={{ background: "#28C840" }} />
+                <span className="ml-3 text-xs" style={{ color: "rgba(255,255,255,.3)" }}>npm · @rald/sdk</span>
+              </div>
+              <pre className="devcode p-5 text-sm" style={{ color: "#9DC8B0" }}>{`npm install @rald/sdk
+
+import { RALDClient } from "@rald/sdk";
+const rald = new RALDClient({ apiKey: "rk_live_..." });
+
+const identity = await rald.identity.verify({ ... });
+const charge   = await rald.payments.charge({ ... });
+const msg      = await rald.messaging.send({ ... });
+
+// ✅ Africa's infrastructure. One import.`}</pre>
+            </div>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {KEY_TYPES.map((k) => (
-              <div
-                key={k.type}
-                className="relative p-6 rounded-2xl border transition-all duration-300 group overflow-hidden"
-                style={{ background: "rgba(255,255,255,0.02)", borderColor: "rgba(255,255,255,0.07)" }}
-                onMouseEnter={e => { e.currentTarget.style.borderColor = `${k.color}40`; e.currentTarget.style.background = `${k.color}06`; }}
-                onMouseLeave={e => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.07)"; e.currentTarget.style.background = "rgba(255,255,255,0.02)"; }}
-              >
-                <div
-                  className="absolute top-0 left-0 right-0 h-[2px] rounded-t-2xl"
-                  style={{ background: `linear-gradient(to right, ${k.color}, transparent)` }}
-                />
-                <div className="flex items-center gap-3 mb-3">
-                  <div
-                    className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold font-mono"
-                    style={{ background: `${k.color}15`, color: k.color, border: `1px solid ${k.color}30` }}
-                  >
-                    <Key className="h-3 w-3" />
-                    {k.type}
-                  </div>
-                  <code className="text-xs text-white/30 font-mono">{k.prefix}•••</code>
+
+          <a href="#apis" className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 text-white/20">
+            <span className="text-xs">explore the APIs</span>
+            <ChevronDown className="w-4 h-4 animate-bounce" />
+          </a>
+        </section>
+
+        {/* ── API SURFACES ─────────────────────────────────────── */}
+        <section id="apis" aria-label="API surfaces" className="py-28 px-5" style={{ background: S }}>
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-16">
+              <p className="text-xs font-semibold mb-3 uppercase tracking-widest" style={{ color: "#00FF88" }}>8 API surfaces</p>
+              <h2 className="text-3xl md:text-5xl font-black text-white mb-4">Every RALD product.<br />One unified API.</h2>
+              <p className="text-lg" style={{ color: "rgba(255,255,255,.4)", maxWidth: 520, margin: "0 auto" }}>
+                Each API follows the same authentication, error format and versioning pattern. Learn once, use everywhere.
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-4 gap-3 mb-12">
+              {APIS.map((a, i) => (
+                <div key={a.name} className="apicard p-5" onClick={() => setActiveApi(i)}
+                  style={{
+                    background: activeApi === i ? `${a.color}10` : "rgba(255,255,255,.03)",
+                    border: `1px solid ${activeApi === i ? a.color + "35" : "rgba(255,255,255,.07)"}`,
+                    boxShadow: activeApi === i ? `0 0 24px ${a.color}10` : "none",
+                  }}>
+                  <div className="text-2xl mb-3">{a.emoji}</div>
+                  <div className="font-black text-white text-sm mb-0.5">{a.name}</div>
+                  <div className="text-xs" style={{ color: a.color }}>{a.product}</div>
                 </div>
-                <p className="text-white/50 text-sm mb-4 leading-relaxed">{k.desc}</p>
-                <div className="flex flex-wrap gap-1.5">
-                  {k.capabilities.map((cap) => (
-                    <span
-                      key={cap}
-                      className="text-[10px] px-2 py-0.5 rounded-full"
-                      style={{ background: `${k.color}10`, color: `${k.color}cc`, border: `1px solid ${k.color}20` }}
-                    >
-                      {cap}
-                    </span>
+              ))}
+            </div>
+
+            {/* Expanded API detail */}
+            <div className="rounded-2xl overflow-hidden" style={{ border: `1px solid ${api.color}20`, background: `${api.color}06` }}>
+              <div className="flex items-center gap-4 px-7 py-5 border-b" style={{ borderColor: `${api.color}15` }}>
+                <span className="text-3xl">{api.emoji}</span>
+                <div>
+                  <h3 className="font-black text-white text-lg">{api.name}</h3>
+                  <p className="text-sm" style={{ color: "rgba(255,255,255,.45)" }}>{api.desc}</p>
+                </div>
+              </div>
+              <div className="grid md:grid-cols-2 gap-0">
+                <div className="p-7 border-r" style={{ borderColor: `${api.color}10` }}>
+                  <p className="text-xs font-semibold mb-4 uppercase tracking-widest" style={{ color: api.color }}>Endpoints</p>
+                  <div className="flex flex-col gap-2">
+                    {api.endpoints.map(ep => {
+                      const [method, ...rest] = ep.split(' ');
+                      const methodColors: Record<string,string> = { POST: "#00FF88", GET: "#00E5FF", DELETE: "#FF4FAD", PUT: "#FFD400", PATCH: "#FF7A00" };
+                      return (
+                        <div key={ep} className="flex items-center gap-3 px-4 py-2.5 rounded-lg" style={{ background: "rgba(255,255,255,.04)", fontFamily: "ui-monospace,monospace", fontSize: 12 }}>
+                          <span className="font-black w-12 text-xs" style={{ color: methodColors[method] ?? "#00FF88" }}>{method}</span>
+                          <span style={{ color: "rgba(255,255,255,.65)" }}>{rest.join(' ')}</span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+                <div className="p-7">
+                  <p className="text-xs font-semibold mb-4 uppercase tracking-widest" style={{ color: api.color }}>Common patterns</p>
+                  {["RESTful JSON · application/json", "Bearer token auth: Authorization: Bearer rk_live_...", "Rate limits: 1,000 req/min (dev) · 10,000 req/min (prod)", "Webhooks available for all async events"].map(p => (
+                    <div key={p} className="flex items-start gap-2.5 mb-3 text-sm" style={{ color: "rgba(255,255,255,.45)" }}>
+                      <CheckCircle className="w-3.5 h-3.5 flex-shrink-0 mt-0.5" style={{ color: api.color }} />
+                      {p}
+                    </div>
                   ))}
                 </div>
               </div>
-            ))}
+            </div>
           </div>
         </section>
 
-        {/* ── FEATURES ── */}
-        <section
-          className="py-24 px-6 md:px-12 max-w-5xl mx-auto"
-          style={{ borderTop: `1px solid ${ACCENT}10` }}
-        >
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-black mb-3">
-              <span className="text-white">Everything you need </span>
-              <span style={{ background: GRADIENT, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
-                to build.
-              </span>
-            </h2>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {FEATURES.map((f, i) => (
-              <FeatureCard key={i} icon={f.icon} title={f.title} desc={f.desc} accentColor={ACCENT} />
-            ))}
+        {/* ── CODE EXAMPLES ────────────────────────────────────── */}
+        <section aria-label="Code examples" className="py-28 px-5">
+          <div className="max-w-5xl mx-auto">
+            <div className="text-center mb-14">
+              <p className="text-xs font-semibold mb-3 uppercase tracking-widest" style={{ color: "#00FF88" }}>Real code</p>
+              <h2 className="text-3xl md:text-4xl font-black text-white mb-4">Same pattern. Every API.</h2>
+              <p className="text-lg" style={{ color: "rgba(255,255,255,.4)" }}>Once you understand one call, you understand all of them.</p>
+            </div>
+
+            {/* Tab bar */}
+            <div className="flex gap-2 mb-6 flex-wrap">
+              {(Object.keys(SNIPPETS) as (keyof typeof SNIPPETS)[]).map(k => (
+                <button key={k} onClick={() => setActiveTab(k)}
+                  className="px-5 py-2 rounded-full text-xs font-bold capitalize transition-all"
+                  style={{
+                    background: activeTab === k ? "#00FF88" : "rgba(255,255,255,.06)",
+                    color: activeTab === k ? "#000" : "rgba(255,255,255,.45)",
+                    border: activeTab === k ? "none" : "1px solid rgba(255,255,255,.1)",
+                  }}>
+                  {k === "identity" ? "Identity" : k === "payments" ? "Payments" : k === "messaging" ? "Messaging" : "Mail"}
+                </button>
+              ))}
+            </div>
+
+            <div className="rounded-2xl overflow-hidden" style={{ border: "1px solid rgba(0,255,136,.15)", background: "rgba(0,0,0,.7)" }}>
+              <div className="flex items-center justify-between px-5 py-3 border-b border-white/5">
+                <div className="flex items-center gap-2">
+                  <span className="w-3 h-3 rounded-full" style={{ background: "#FF5F57" }} />
+                  <span className="w-3 h-3 rounded-full" style={{ background: "#FEBC2E" }} />
+                  <span className="w-3 h-3 rounded-full" style={{ background: "#28C840" }} />
+                </div>
+                <span className="text-xs" style={{ color: "rgba(255,255,255,.3)" }}>Node.js · TypeScript</span>
+                <span className="text-xs px-2.5 py-1 rounded-full" style={{ background: "rgba(0,255,136,.1)", color: "#00FF88" }}>v1.0</span>
+              </div>
+              <pre key={activeTab} className="devcode snippet-enter p-7 overflow-x-auto" style={{ color: "#8FC8A0" }}>
+                {SNIPPETS[activeTab]}
+              </pre>
+            </div>
           </div>
         </section>
 
-        {/* ── TRUST LEVELS ── */}
-        <section
-          className="py-24 px-6 md:px-12 max-w-5xl mx-auto"
-          style={{ borderTop: `1px solid ${ACCENT}10` }}
-        >
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-black mb-3">
-              <span style={{ background: GRADIENT, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
-                Trust Levels.
-              </span>
-            </h2>
-            <p className="text-white/35 text-sm max-w-md mx-auto">
-              Trust determines rate limits, product access, advanced APIs, and production approval.
-            </p>
-          </div>
-          <div className="max-w-2xl mx-auto space-y-3">
-            {[
-              { level: 1, name: "Personal Developer", perks: "Basic rate limits · Core identity APIs · Development access" },
-              { level: 2, name: "Verified Developer", perks: "Higher limits · Email verified · Product API access" },
-              { level: 3, name: "Verified Organization", perks: "Team access · Business APIs · Workspace isolation" },
-              { level: 4, name: "Strategic Partner", perks: "Advanced APIs · Priority support · Custom limits" },
-              { level: 5, name: "RALD Certified Partner", perks: "Full ecosystem access · SLA · White-label options" },
-            ].map((t) => {
-              const pct = (t.level / 5) * 100;
-              return (
-                <div
-                  key={t.level}
-                  className="flex items-center gap-4 p-4 rounded-2xl border"
-                  style={{ background: "rgba(255,255,255,0.02)", borderColor: "rgba(255,255,255,0.06)" }}
-                >
-                  <div
-                    className="w-10 h-10 rounded-xl flex items-center justify-center text-sm font-black shrink-0"
-                    style={{ background: `${ACCENT}${Math.round(pct * 0.4).toString(16).padStart(2, "0")}`, color: ACCENT, border: `1px solid ${ACCENT}30` }}
-                  >
-                    {t.level}
+        {/* ── SDKs ─────────────────────────────────────────────── */}
+        <section aria-label="SDKs" className="py-20 px-5" style={{ background: S }}>
+          <div className="max-w-5xl mx-auto">
+            <div className="text-center mb-12">
+              <p className="text-xs font-semibold mb-3 uppercase tracking-widest" style={{ color: "#00FF88" }}>Official SDKs</p>
+              <h2 className="text-2xl md:text-3xl font-black text-white">Your language. Our infrastructure.</h2>
+            </div>
+            <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-4">
+              {SDKS.map(s => (
+                <div key={s.lang} className="devcard p-6">
+                  <div className="w-8 h-8 rounded-lg flex items-center justify-center mb-4" style={{ background: s.badge + "20" }}>
+                    <Code2 className="w-4 h-4" style={{ color: s.badge }} />
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="font-bold text-sm text-white mb-0.5">{t.name}</div>
-                    <div className="text-xs text-white/35 truncate">{t.perks}</div>
-                  </div>
-                  <div className="w-20 h-1.5 rounded-full shrink-0" style={{ background: "rgba(255,255,255,0.06)" }}>
-                    <div className="h-full rounded-full" style={{ width: `${pct}%`, background: GRADIENT }} />
+                  <div className="font-black text-white mb-3">{s.lang}</div>
+                  <div className="px-3 py-2 rounded-lg text-xs" style={{ fontFamily: "ui-monospace,monospace", background: "rgba(255,255,255,.05)", color: "rgba(255,255,255,.5)" }}>
+                    {s.install}
                   </div>
                 </div>
-              );
-            })}
+              ))}
+            </div>
           </div>
         </section>
 
-        {/* ── CLOSED BETA NOTICE ── */}
-        <section className="relative py-24 px-6 md:px-12 text-center max-w-3xl mx-auto">
-          <GradientBlob color={GLOW} className="w-[600px] h-[600px] -bottom-40 left-1/2 -translate-x-1/2" />
-          <div
-            className="relative inline-flex items-center gap-2 mb-8 px-4 py-2 rounded-full border text-sm font-semibold"
-            style={{ borderColor: `${ACCENT}40`, color: ACCENT, background: `${ACCENT}10` }}
-          >
-            <Shield className="h-4 w-4" />
-            Closed Beta Rules
-          </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-12 text-left">
-            {[
-              "Invite-only",
-              "Admin approval",
-              "Manual provisioning",
-              "No public registrations",
-              "No production financial APIs",
-              "No unrestricted AI APIs",
-            ].map((rule) => (
-              <div
-                key={rule}
-                className="flex items-center gap-2 text-xs text-white/50 p-3 rounded-xl"
-                style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}
-              >
-                <span style={{ color: ACCENT }}>→</span>
-                {rule}
+        {/* ── ARCHITECTURE LAYERS ──────────────────────────────── */}
+        <section ref={layerRef} aria-label="Architecture" className="py-28 px-5">
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center mb-14">
+              <p className="text-xs font-semibold mb-3 uppercase tracking-widest" style={{ color: "#00FF88" }}>Infrastructure</p>
+              <h2 className="text-3xl md:text-4xl font-black text-white mb-4">How RALD is built</h2>
+              <p style={{ color: "rgba(255,255,255,.4)", maxWidth: 480, margin: "0 auto" }}>
+                Every API call flows through 6 layers — identity at the top, African servers at the bottom.
+              </p>
+            </div>
+
+            <div className="relative">
+              {/* Vertical connector */}
+              <div className="absolute left-8 top-6 bottom-6 w-px" style={{ background: "linear-gradient(to bottom,#00FF88,#00E5FF,#A855F7,#FFD400,#FF7A00,#00BFFF)", opacity: .3 }} />
+
+              <div className="flex flex-col gap-3">
+                {LAYERS.map((l, i) => (
+                  <div key={l.name} className="flex items-center gap-5 pl-16 pr-7 py-5 rounded-2xl transition-all hover:bg-white/3 relative"
+                    style={{
+                      background: "rgba(255,255,255,.025)",
+                      border: "1px solid rgba(255,255,255,.06)",
+                      opacity: visLayer ? 1 : 0,
+                      transform: visLayer ? "none" : "translateX(-12px)",
+                      transition: `all .4s ease ${i * 0.08}s`,
+                    }}>
+                    {/* Node on timeline */}
+                    <div className="absolute left-6 w-4 h-4 rounded-full border-2 flex-shrink-0" style={{ background: BG, borderColor: l.color, boxShadow: `0 0 8px ${l.color}50` }} />
+                    <div className="text-xl mr-1">{l.icon}</div>
+                    <div className="flex-1">
+                      <div className="font-black text-white">{l.name}</div>
+                      <div className="text-sm" style={{ color: "rgba(255,255,255,.4)" }}>{l.desc}</div>
+                    </div>
+                    <div className="hidden md:flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold" style={{ background: `${l.color}12`, color: l.color }}>
+                      Layer {i + 1}
+                    </div>
+                  </div>
+                ))}
               </div>
-            ))}
+            </div>
           </div>
-          <h2 className="text-4xl md:text-5xl font-black mb-4">
-            <span style={{ background: GRADIENT, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
-              Ready to build?
-            </span>
-          </h2>
-          <p className="text-white/35 text-sm mb-10">
-            Apply for the developer closed beta. We review every application manually.
-          </p>
-          <WaitlistForm />
         </section>
 
-        {/* ── FOOTER ── */}
-        <footer className="py-8 px-6 md:px-12" style={{ borderTop: `1px solid ${ACCENT}20` }}>
-          <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-white/30">
-            <span className="font-black text-base">
-              <span className="text-white/70">RALD</span>
-              <span style={{ color: ACCENT }}>.cloud</span>
-            </span>
-            <span>© 2026 RALD.cloud · Developer Platform · Pan-African Infrastructure</span>
-            <span style={{ color: ACCENT }}>LILCKY STUDIO LIMITED</span>
+        {/* ── AUTH OVERVIEW ────────────────────────────────────── */}
+        <section aria-label="Authentication" className="py-20 px-5" style={{ background: S }}>
+          <div className="max-w-5xl mx-auto">
+            <div className="text-center mb-12">
+              <p className="text-xs font-semibold mb-3 uppercase tracking-widest" style={{ color: "#00FF88" }}>Authentication</p>
+              <h2 className="text-2xl md:text-3xl font-black text-white mb-4">One key. All products.</h2>
+            </div>
+            <div className="grid md:grid-cols-3 gap-4">
+              {[
+                { icon: Key,      label:"Master API Key",   desc:"Your root credential (`rk_live_...`). Scoped at the account level. Rotate any time.", color:"#00FF88" },
+                { icon: Shield,   label:"Product Keys",     desc:"Scoped to one product — PayRald, Mail, etc. Limit blast radius of a leaked key.", color:"#00E5FF" },
+                { icon: Webhook,  label:"Webhook Secrets",  desc:"Every webhook comes with a signature header. Verify with HMAC-SHA256 in 2 lines.", color:"#FFD400" },
+              ].map(c => (
+                <div key={c.label} className="devcard p-7">
+                  <div className="w-10 h-10 rounded-xl flex items-center justify-center mb-5" style={{ background: `${c.color}12`, border: `1px solid ${c.color}22` }}>
+                    <c.icon className="w-5 h-5" style={{ color: c.color }} />
+                  </div>
+                  <h3 className="font-black text-white mb-2">{c.label}</h3>
+                  <p className="text-sm leading-relaxed" style={{ color: "rgba(255,255,255,.45)" }}>{c.desc}</p>
+                </div>
+              ))}
+            </div>
+
+            {/* Auth code snippet */}
+            <div className="mt-8 rounded-2xl overflow-hidden" style={{ border: "1px solid rgba(0,255,136,.12)", background: "rgba(0,0,0,.6)" }}>
+              <div className="flex items-center gap-2 px-5 py-3 border-b border-white/5">
+                <span className="w-2.5 h-2.5 rounded-full" style={{ background: "#FF5F57" }} />
+                <span className="w-2.5 h-2.5 rounded-full" style={{ background: "#FEBC2E" }} />
+                <span className="w-2.5 h-2.5 rounded-full" style={{ background: "#28C840" }} />
+                <span className="ml-3 text-xs" style={{ color: "rgba(255,255,255,.3)" }}>Authorization header</span>
+              </div>
+              <pre className="devcode p-6 text-sm" style={{ color: "#8FC8A0" }}>{`// Every request
+Authorization: Bearer rk_live_raldXXXXXXXXXXXXXXXX
+
+// Verify an incoming webhook (Node.js)
+import { verifyWebhook } from "@rald/sdk";
+const event = verifyWebhook(req.body, req.headers["rald-signature"]);
+// { type: "payment.completed", data: { ... } }`}</pre>
+            </div>
           </div>
-        </footer>
-      </div>
-    </>
+        </section>
+
+        {/* ── UPCOMING FEATURES ────────────────────────────────── */}
+        <section aria-label="Roadmap" className="py-28 px-5">
+          <div className="max-w-5xl mx-auto">
+            <div className="text-center mb-14">
+              <p className="text-xs font-semibold mb-3 uppercase tracking-widest" style={{ color: "#00FF88" }}>On the roadmap</p>
+              <h2 className="text-3xl md:text-4xl font-black text-white">What's coming next</h2>
+            </div>
+            <div className="grid md:grid-cols-3 gap-4">
+              {[
+                { icon:"🏪", label:"API Marketplace",      eta:"2026", desc:"Sell API capabilities to other RALD developers. Billing, metering and revenue split handled by RALD." },
+                { icon:"🤖", label:"AI Agent SDK",         eta:"2026", desc:"Give AI agents a RALD identity and wallet. Let them pay, verify users and send messages autonomously." },
+                { icon:"📜", label:"API Changelog",        eta:"2025", desc:"Every breaking change notified via webhook, email and in-console banner. Never surprised by a migration." },
+                { icon:"🌍", label:"Multi-country keys",   eta:"2026", desc:"One key that unlocks APIs across Nigeria, Kenya, Ghana and South Africa — governed by country activation rules." },
+                { icon:"🔍", label:"Request Inspector",    eta:"2026", desc:"See every API call you've made in real-time — payload, response, latency and gateway used." },
+                { icon:"📊", label:"Usage dashboard",      eta:"2025", desc:"Know exactly which APIs you're using, what your costs are, and where your rate limits sit — today." },
+              ].map(c => (
+                <div key={c.label} className="devcard p-7">
+                  <div className="flex items-center justify-between mb-5">
+                    <span className="text-2xl">{c.icon}</span>
+                    <span className="text-xs px-2.5 py-1 rounded-full font-semibold" style={{ background: "rgba(0,255,136,.1)", color: "#00FF88" }}>{c.eta}</span>
+                  </div>
+                  <h3 className="font-black text-white mb-2">{c.label}</h3>
+                  <p className="text-sm leading-relaxed" style={{ color: "rgba(255,255,255,.4)" }}>{c.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── CLOSING ──────────────────────────────────────────── */}
+        <section aria-label="About the platform" className="py-24 px-5 text-center" style={{ background: S, borderTop: "1px solid rgba(255,255,255,.05)" }}>
+          <div className="max-w-2xl mx-auto">
+            <div className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-8" style={{ background: "rgba(0,255,136,.08)", border: "1px solid rgba(0,255,136,.2)" }}>
+              <Layers className="w-8 h-8" style={{ color: "#00FF88" }} />
+            </div>
+            <h2 className="text-3xl md:text-4xl font-black text-white mb-5">
+              Africa's infrastructure.<br />
+              <span style={{ background: "linear-gradient(135deg,#00FF88,#00E5FF)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>One unified platform.</span>
+            </h2>
+            <p className="text-lg mb-8" style={{ color: "rgba(255,255,255,.4)" }}>
+              RALD is built by Africans, hosted in Africa, and designed for the realities of building here — slow networks, multiple languages, fragmented payment rails, and millions of unbanked users.
+            </p>
+            <div className="flex flex-wrap gap-5 justify-center">
+              {[
+                { icon: Globe, label: "Lagos + Nairobi infra" },
+                { icon: Zap,   label: "<200ms API response" },
+                { icon: Shield,label: "NDPR compliant" },
+              ].map(f => (
+                <div key={f.label} className="flex items-center gap-2 text-sm" style={{ color: "rgba(255,255,255,.5)" }}>
+                  <f.icon className="w-4 h-4" style={{ color: "#00FF88" }} />
+                  {f.label}
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer className="py-10 px-5" style={{ background: "#010508", borderTop: "1px solid rgba(255,255,255,.04)" }}>
+        <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-5">
+          <img src="/rald-wordmark.png" alt="RALD" style={{ height: 20, filter: "brightness(0) invert(1)" }} />
+          <nav className="flex flex-wrap justify-center gap-5 text-xs" style={{ color: "rgba(255,255,255,.25)" }} aria-label="Footer navigation">
+            {[["Home", "/"], ["Products", "/products"], ["ALIA", "/alia"], ["PayRald", "/payrald"], ["Privacy", "/privacy"], ["Terms", "/terms"]].map(([l, h]) => (
+              <Link key={l} href={h} className="hover:text-white/60 transition-colors">{l}</Link>
+            ))}
+          </nav>
+          <div className="text-xs" style={{ color: "rgba(255,255,255,.2)" }}>© {new Date().getFullYear()} LILCKY STUDIO LIMITED</div>
+        </div>
+      </footer>
+    </div>
   );
 }
