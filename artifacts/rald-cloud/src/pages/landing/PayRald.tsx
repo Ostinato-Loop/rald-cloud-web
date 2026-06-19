@@ -46,7 +46,7 @@ export default function PayRald() {
       <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-5 md:px-10 h-16 transition-all"
         style={{ background: sc ? `${BG}F2` : "transparent", backdropFilter: sc ? "blur(16px)" : "none", borderBottom: sc ? `1px solid ${A}15` : "1px solid transparent" }}>
         <Link href="/"><img src="/rald-wordmark.png" alt="RALD" style={{ height: 20, filter: "brightness(0) invert(1)" }} /></Link>
-        <a href="https://console.rald.cloud" className="px-5 py-2 rounded-full text-sm font-bold hover:scale-105 transition-all" style={{ background: A, color: "#fff" }}>Get API key →</a>
+        
       </nav>
 
       <main>
@@ -64,9 +64,7 @@ export default function PayRald() {
             Stop losing sales to failed payments. PayRald automatically picks whichever gateway has the best success rate — and switches instantly if it fails. Built for Nigeria and Africa.
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
-            <a href="https://console.rald.cloud" className="flex items-center gap-2 px-7 py-3.5 rounded-full font-black text-sm hover:scale-105 transition-all" style={{ background: A, color: "#fff", boxShadow: `0 0 28px ${A}40` }}>
-              Get free API key <ArrowRight className="w-4 h-4" />
-            </a>
+            
             <Link href="/developers" className="flex items-center gap-2 px-7 py-3.5 rounded-full font-semibold text-sm hover:bg-white/5 transition-all" style={{ border: "1px solid rgba(255,255,255,.14)", color: "rgba(255,255,255,.7)" }}>
               Read the docs
             </Link>
@@ -201,9 +199,7 @@ const charge = await pay.charge({
             <img src="/payrald-wordmark.png" alt="PayRald" style={{ height: 40, width: "auto", objectFit: "contain", margin: "0 auto 24px" }} />
             <h2 className="text-3xl md:text-4xl font-black text-white mb-4">Stop losing sales<br />to failed payments.</h2>
             <p className="mb-10" style={{ color: "rgba(255,255,255,.45)" }}>Free API key. No credit card. Your first payment in under an hour.</p>
-            <a href="https://console.rald.cloud" className="inline-flex items-center gap-2 px-8 py-4 rounded-full font-black hover:scale-105 transition-all" style={{ background: A, color: "#fff", boxShadow: `0 0 30px ${A}35` }}>
-              Get free API key <ArrowRight className="w-4 h-4" />
-            </a>
+            
           </div>
         </section>
       </main>
