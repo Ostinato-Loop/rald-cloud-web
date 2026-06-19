@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "wouter";
 import { ArrowRight, ChevronDown, Truck, MapPin, CheckCircle, BarChart3 } from "lucide-react";
+import { useSEO } from "../../hooks/useSEO";
 
 const A="#00BFFF", BG="#020B10", S="#030D14";
 
@@ -19,6 +20,8 @@ const FEATURES=[
 
 export default function LoopDispatch(){
   const [sc,setSc]=useState(false),[active,setActive]=useState(0);
+    useSEO({title:"Loop Dispatch — Smart Delivery for African Businesses | RALD.cloud",description:"Loop Dispatch automatically picks the fastest and cheapest courier for every order — from GIG to Sendbox. Live GPS tracking. Photo proof of delivery. Works across Nigeria, Kenya and Ghana.",url:"https://rald.cloud/dispatch",themeColor:"#00BFFF",product:{name:"Loop Dispatch",applicationCategory:"BusinessApplication",operatingSystem:"Web, Android, iOS"}});
+
   useEffect(()=>{const h=()=>setSc(window.scrollY>40);window.addEventListener("scroll",h);return()=>window.removeEventListener("scroll",h);},[]);
   useEffect(()=>{const t=setInterval(()=>setActive(a=>(a+1)%STORIES.length),3200);return()=>clearInterval(t);},[]);
   return(
