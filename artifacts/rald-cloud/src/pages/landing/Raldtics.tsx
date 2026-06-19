@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Link } from "wouter";
 import { ArrowRight, ChevronDown, BarChart3, TrendingUp, Users, Zap } from "lucide-react";
+import { useSEO } from "../../hooks/useSEO";
 
 const A="#FFD400", BG="#0A0900", S="#0D0B00";
 
@@ -21,6 +22,8 @@ export default function Raldtics(){
   const [sc,setSc]=useState(false),[active,setActive]=useState(0);
   const ref=useRef<HTMLDivElement>(null);
   const [vis,setVis]=useState(false);
+    useSEO({title:"Raldtics — Business Analytics Built for Africa | RALD.cloud",description:"Raldtics gives African product teams real-time dashboards. See who's using your app, where they're from, what's converting, and where users drop off. Add it in 3 lines of code.",url:"https://rald.cloud/raldtics",themeColor:"#FFD400",product:{name:"Raldtics",applicationCategory:"BusinessApplication",operatingSystem:"Web"}});
+
   useEffect(()=>{const h=()=>setSc(window.scrollY>40);window.addEventListener("scroll",h);return()=>window.removeEventListener("scroll",h);},[]);
   useEffect(()=>{const t=setInterval(()=>setActive(a=>(a+1)%STORIES.length),3200);return()=>clearInterval(t);},[]);
   useEffect(()=>{
