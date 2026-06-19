@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "wouter";
 import { ArrowRight, ChevronDown, Lock, Wifi, CreditCard, Globe } from "lucide-react";
+import { useSEO } from "../../hooks/useSEO";
 
 const A="#FF7A00", BG="#0F0700", S="#120900";
 
@@ -19,6 +20,8 @@ const FEATURES=[
 
 export default function LoopMessenger(){
   const [sc,setSc]=useState(false),[active,setActive]=useState(0);
+    useSEO({title:"Loop Messenger — Chat and Send Money in One Message | RALD.cloud",description:"Loop Messenger combines secure messaging with instant money transfers. Chat in 24 African languages. Send money without leaving the conversation. Works even on 2G networks.",url:"https://rald.cloud/messenger",themeColor:"#FF7A00",product:{name:"Loop Messenger",applicationCategory:"CommunicationApplication",operatingSystem:"Android, iOS, Web",offers:{price:"0",priceCurrency:"NGN"}}});
+
   useEffect(()=>{const h=()=>setSc(window.scrollY>40);window.addEventListener("scroll",h);return()=>window.removeEventListener("scroll",h);},[]);
   useEffect(()=>{const t=setInterval(()=>setActive(a=>(a+1)%STORIES.length),3000);return()=>clearInterval(t);},[]);
   return(
