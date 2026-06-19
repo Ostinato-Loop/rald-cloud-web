@@ -35,6 +35,7 @@ const DunaRald          = lazy(() => import("./pages/landing/DunaRald"));
 const RALDElimu         = lazy(() => import("./pages/landing/RALDElimu"));
 const RALDMail          = lazy(() => import("./pages/landing/RALDMail"));
 const Developers        = lazy(() => import("./pages/landing/Developers"));
+const Status            = lazy(() => import("./pages/landing/Status"));
 
 const PrivacyPolicy     = lazy(() => import("./pages/legal/PrivacyPolicy"));
 const TermsOfService    = lazy(() => import("./pages/legal/TermsOfService"));
@@ -108,6 +109,7 @@ function Router() {
           <Route path="/raldmail" component={RALDMail} />
           <Route path="/referral" component={Referral} />
           <Route path="/developers" component={Developers} />
+          <Route path="/status" component={Status} />
 
           {/* Legal pages */}
           <Route path="/privacy" component={PrivacyPolicy} />
