@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "wouter";
 import { ArrowRight, ChevronDown, Users, CreditCard, Bell, BarChart3 } from "lucide-react";
+import { useSEO } from "../../hooks/useSEO";
 
 const A="#A855F7", BG="#080310", S="#0A0414";
 
@@ -19,6 +20,8 @@ const FEATURES=[
 
 export default function RALDElimu(){
   const [sc,setSc]=useState(false),[active,setActive]=useState(0);
+    useSEO({title:"RALD Elimu — School Management Made Simple for Africa | RALD.cloud",description:"RALD Elimu digitises African school operations. Attendance on a phone, fees paid in an app, instant parent notifications. Works for any school size. No paper or spreadsheets needed.",url:"https://rald.cloud/elimu",themeColor:"#A855F7",product:{name:"RALD Elimu",applicationCategory:"EducationApplication",operatingSystem:"Web, Android, iOS",offers:{price:"0",priceCurrency:"NGN"}}});
+
   useEffect(()=>{const h=()=>setSc(window.scrollY>40);window.addEventListener("scroll",h);return()=>window.removeEventListener("scroll",h);},[]);
   useEffect(()=>{const t=setInterval(()=>setActive(a=>(a+1)%STORIES.length),3200);return()=>clearInterval(t);},[]);
   /* Dynamic favicon */
