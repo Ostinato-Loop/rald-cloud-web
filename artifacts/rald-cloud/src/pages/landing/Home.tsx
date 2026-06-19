@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Link } from "wouter";
 import { ArrowRight, Menu, X, ChevronDown } from "lucide-react";
+import { useSEO } from "../../hooks/useSEO";
 
 const RED = "#FF2E2E";
 const BG = "#050A0F";
@@ -70,6 +71,8 @@ export default function Home() {
   const [nav, setNav] = useState(false);
   const [ready, setReady] = useState(false);
   const ecosRef = useRef<HTMLElement>(null);
+
+    useSEO({title:"RALD.cloud — Africa's Digital Operating System",description:"RALD is Africa's integrated digital ecosystem: identity (ALIA), payments (PayRald), messaging (Loop Messenger), commerce (Loop), education (RALD Elimu), logistics (Loop Dispatch), voice AI (Loop Voice), email (RALD Mail), savings (DunaRald), analytics (Raldtics) and developer infra (GitRald).",url:"https://rald.cloud",themeColor:"#FF2E2E"});
 
   useEffect(() => { setTimeout(() => setReady(true), 100); }, []);
   useEffect(() => {
