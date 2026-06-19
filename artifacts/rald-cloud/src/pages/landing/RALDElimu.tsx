@@ -44,7 +44,7 @@ export default function RALDElimu(){
       <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-5 md:px-10 h-16 transition-all"
         style={{background:sc?`${BG}F0`:"transparent",backdropFilter:sc?"blur(16px)":"none",borderBottom:sc?`1px solid ${A}15`:"1px solid transparent"}}>
         <Link href="/"><img src="/rald-wordmark.png" alt="RALD" style={{height:20,filter:"brightness(0) invert(1)"}}/></Link>
-        <a href="https://app.rald.cloud" className="px-5 py-2 rounded-full text-sm font-bold hover:scale-105 transition-all" style={{background:A,color:"#fff"}}>Enrol your school →</a>
+        
       </nav>
 
       <section className="min-h-screen flex flex-col items-center justify-center text-center px-5 pt-20 pb-12" style={{animation:"eup .7s ease forwards"}}>
@@ -60,9 +60,7 @@ export default function RALDElimu(){
           Attendance on a phone. Fees paid in the app. Parents updated instantly. RALD Elimu makes school admin work for African schools — without paper or spreadsheets.
         </p>
         <div className="flex flex-wrap gap-4 justify-center">
-          <a href="https://app.rald.cloud" className="flex items-center gap-2 px-7 py-3.5 rounded-full font-black text-sm hover:scale-105 transition-all" style={{background:A,color:"#fff",boxShadow:`0 0 28px ${A}40`}}>
-            Enrol your school <ArrowRight className="w-4 h-4"/>
-          </a>
+          
           <Link href="/payrald" className="flex items-center gap-2 px-7 py-3.5 rounded-full font-semibold text-sm hover:bg-white/5 transition-all" style={{border:"1px solid rgba(255,255,255,.14)",color:"rgba(255,255,255,.7)"}}>
             How fees work →
           </Link>
@@ -135,9 +133,7 @@ export default function RALDElimu(){
           <img src="/elimu-wordmark.png" alt="RALD Elimu" style={{height:40,width:"auto",objectFit:"contain",margin:"0 auto 24px"}}/>
           <h2 className="text-3xl md:text-4xl font-black text-white mb-4">Every African school<br/>deserves to run like this.</h2>
           <p className="mb-10" style={{color:"rgba(255,255,255,.45)"}}>Free to start. No setup fees. Works from your existing phone.</p>
-          <a href="https://app.rald.cloud" className="inline-flex items-center gap-2 px-8 py-4 rounded-full font-black hover:scale-105 transition-all" style={{background:A,color:"#fff",boxShadow:`0 0 30px ${A}35`}}>
-            Enrol your school free <ArrowRight className="w-4 h-4"/>
-          </a>
+          
         </div>
       </section>
 
