@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "wouter";
 import { ArrowRight, ChevronDown, CheckCircle, Code2, Shield, Zap } from "lucide-react";
+import { useSEO } from "../../hooks/useSEO";
 
 const A="#00E5FF", BG="#020B10", S="#030D14";
 
@@ -28,6 +29,8 @@ await mail.send({
 
 export default function RALDMail(){
   const [sc,setSc]=useState(false),[tab,setTab]=useState(0),[active,setActive]=useState(0);
+    useSEO({title:"RALD Mail — Emails That Land in the Inbox, Not Spam | RALD.cloud",description:"RALD Mail is Africa's email delivery infrastructure. Send OTPs, receipts and campaigns that reach your customers. Built on Lagos and Nairobi servers. 99.7% delivery rate. 3-line integration.",url:"https://rald.cloud/raldmail",themeColor:"#00E5FF",product:{name:"RALD Mail",applicationCategory:"BusinessApplication",operatingSystem:"Web"}});
+
   useEffect(()=>{const h=()=>setSc(window.scrollY>40);window.addEventListener("scroll",h);return()=>window.removeEventListener("scroll",h);},[]);
   useEffect(()=>{const t=setInterval(()=>setActive(a=>(a+1)%STORIES.length),3200);return()=>clearInterval(t);},[]);
   return(
