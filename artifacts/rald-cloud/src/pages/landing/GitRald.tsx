@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "wouter";
 import { ArrowRight, ChevronDown, GitBranch, Zap, Shield, Globe } from "lucide-react";
+import { useSEO } from "../../hooks/useSEO";
 
 const A="#FF2E2E", BG="#0F0202", S="#130303";
 
@@ -19,6 +20,8 @@ const FEATURES=[
 
 export default function GitRald(){
   const [sc,setSc]=useState(false),[active,setActive]=useState(0);
+    useSEO({title:"GitRald — Code on African Infrastructure | RALD.cloud",description:"GitRald is a Git platform hosted on servers in Lagos and Nairobi. 3× faster push speeds from Africa. Auto-deploy on push. Private repos. NDPR-compliant. Built for African dev teams.",url:"https://rald.cloud/gitrald",themeColor:"#FF2E2E",product:{name:"GitRald",applicationCategory:"DeveloperApplication",operatingSystem:"Web"}});
+
   useEffect(()=>{const h=()=>setSc(window.scrollY>40);window.addEventListener("scroll",h);return()=>window.removeEventListener("scroll",h);},[]);
   useEffect(()=>{const t=setInterval(()=>setActive(a=>(a+1)%STORIES.length),3200);return()=>clearInterval(t);},[]);
   return(
