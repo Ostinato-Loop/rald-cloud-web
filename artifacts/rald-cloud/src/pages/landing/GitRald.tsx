@@ -38,7 +38,7 @@ export default function GitRald(){
       <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-5 md:px-10 h-16 transition-all"
         style={{background:sc?`${BG}F0`:"transparent",backdropFilter:sc?"blur(16px)":"none",borderBottom:sc?`1px solid ${A}15`:"1px solid transparent"}}>
         <Link href="/"><img src="/rald-wordmark.png" alt="RALD" style={{height:20,filter:"brightness(0) invert(1)"}}/></Link>
-        <a href="https://console.rald.cloud" className="px-5 py-2 rounded-full text-sm font-bold hover:scale-105 transition-all" style={{background:A,color:"#fff"}}>Open GitRald →</a>
+        
       </nav>
 
       <section className="min-h-screen flex flex-col items-center justify-center text-center px-5 pt-20 pb-12" style={{animation:"gup .7s ease forwards"}}>
@@ -54,9 +54,7 @@ export default function GitRald(){
           Store your code, run automated tests and deploy — all from infrastructure based in Lagos and Nairobi. 3× faster git push than international providers.
         </p>
         <div className="flex flex-wrap gap-4 justify-center">
-          <a href="https://console.rald.cloud" className="flex items-center gap-2 px-7 py-3.5 rounded-full font-black text-sm hover:scale-105 transition-all" style={{background:A,color:"#fff",boxShadow:`0 0 28px ${A}40`}}>
-            Open GitRald free <ArrowRight className="w-4 h-4"/>
-          </a>
+          
           <Link href="/developers" className="flex items-center gap-2 px-7 py-3.5 rounded-full font-semibold text-sm hover:bg-white/5 transition-all" style={{border:"1px solid rgba(255,255,255,.14)",color:"rgba(255,255,255,.7)"}}>
             API docs
           </Link>
@@ -132,9 +130,7 @@ Writing objects: 100% (89/89), 2.44 MiB | 18.3 MB/s, done.
         <div className="max-w-xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-black text-white mb-4">Your code deserves<br/>infrastructure that understands Africa.</h2>
           <p className="mb-10" style={{color:"rgba(255,255,255,.45)"}}>Free for individuals and open-source projects. Team plans from ₦0.</p>
-          <a href="https://console.rald.cloud" className="inline-flex items-center gap-2 px-8 py-4 rounded-full font-black hover:scale-105 transition-all" style={{background:A,color:"#fff",boxShadow:`0 0 30px ${A}35`}}>
-            Open GitRald free <ArrowRight className="w-4 h-4"/>
-          </a>
+          
         </div>
       </section>
 
