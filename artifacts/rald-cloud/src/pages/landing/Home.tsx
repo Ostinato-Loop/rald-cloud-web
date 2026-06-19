@@ -103,9 +103,7 @@ export default function Home() {
               onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = "#fff"; }}
               onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,.4)"; }}>{l}</a>
           ))}
-          <a href="https://app.rald.cloud" className="px-5 py-2 rounded-full text-xs font-bold hover:scale-105 transition-all" style={{ background: RED, color: "#fff" }}>
-            Get started
-          </a>
+          
         </div>
         <button className="md:hidden p-2" style={{ color: RED }} onClick={() => setNav(!nav)}>
           {nav ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -118,7 +116,7 @@ export default function Home() {
           {[["Products", "#ecosystem"], ["Developers", "/developers"], ["Privacy", "/privacy"]].map(([l, h]) => (
             <a key={l} href={h} style={{ color: "rgba(255,255,255,.7)" }} onClick={() => setNav(false)}>{l}</a>
           ))}
-          <a href="https://app.rald.cloud" className="px-8 py-3 rounded-full text-base" style={{ background: RED, color: "#fff" }}>Get started</a>
+          
         </div>
       )}
 
@@ -147,9 +145,7 @@ export default function Home() {
             Identity, payments, commerce, messaging, logistics, education — all connected. Built in Africa. For Africa.
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
-            <a href="https://app.rald.cloud" className="flex items-center gap-2 px-8 py-4 rounded-full font-black text-base hover:scale-105 transition-all" style={{ background: RED, color: "#fff", boxShadow: `0 0 40px ${RED}40` }}>
-              Get started free <ArrowRight className="w-5 h-5" />
-            </a>
+            
             <a href="#ecosystem" className="flex items-center gap-2 px-8 py-4 rounded-full font-semibold text-base hover:bg-white/5 transition-all" style={{ border: "1px solid rgba(255,255,255,.14)", color: "rgba(255,255,255,.7)" }}>
               Explore products
             </a>
@@ -235,9 +231,7 @@ export default function Home() {
             One account unlocks all 11 RALD products. Free to start.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href="https://app.rald.cloud" className="flex items-center justify-center gap-2 px-8 py-4 rounded-full font-black hover:scale-105 transition-all" style={{ background: RED, color: "#fff", boxShadow: `0 0 40px ${RED}35` }}>
-              Create your RALD account <ArrowRight className="w-4 h-4" />
-            </a>
+            
             <Link href="/developers" className="flex items-center justify-center gap-2 px-8 py-4 rounded-full font-semibold hover:bg-white/5 transition-all" style={{ border: "1px solid rgba(255,255,255,.12)", color: "rgba(255,255,255,.7)" }}>
               Build on RALD
             </Link>
