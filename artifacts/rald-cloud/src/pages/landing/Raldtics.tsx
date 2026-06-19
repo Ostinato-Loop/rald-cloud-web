@@ -44,7 +44,7 @@ export default function Raldtics(){
       <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-5 md:px-10 h-16 transition-all"
         style={{background:sc?`${BG}F0`:"transparent",backdropFilter:sc?"blur(16px)":"none",borderBottom:sc?`1px solid ${A}15`:"1px solid transparent"}}>
         <Link href="/"><img src="/rald-wordmark.png" alt="RALD" style={{height:20,filter:"brightness(0) invert(1)"}}/></Link>
-        <a href="https://console.rald.cloud" className="px-5 py-2 rounded-full text-sm font-bold hover:scale-105 transition-all" style={{background:A,color:"#000"}}>Open dashboard →</a>
+        
       </nav>
 
       <section className="min-h-screen flex flex-col items-center justify-center text-center px-5 pt-20 pb-12" style={{animation:"rup .7s ease forwards"}}>
@@ -60,9 +60,7 @@ export default function Raldtics(){
           A simple dashboard that shows who's using your app, when, and what they're doing. Built for African product teams.
         </p>
         <div className="flex flex-wrap gap-4 justify-center">
-          <a href="https://console.rald.cloud" className="flex items-center gap-2 px-7 py-3.5 rounded-full font-black text-sm hover:scale-105 transition-all" style={{background:A,color:"#000",boxShadow:`0 0 28px ${A}40`}}>
-            Open free dashboard <ArrowRight className="w-4 h-4"/>
-          </a>
+          
           <Link href="/developers" className="flex items-center gap-2 px-7 py-3.5 rounded-full font-semibold text-sm hover:bg-white/5 transition-all" style={{border:"1px solid rgba(255,255,255,.14)",color:"rgba(255,255,255,.7)"}}>
             SDK docs
           </Link>
@@ -128,9 +126,7 @@ export default function Raldtics(){
         <div className="max-w-xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-black text-white mb-4">Stop guessing.<br/>Start knowing.</h2>
           <p className="mb-10" style={{color:"rgba(255,255,255,.45)"}}>Free to start. Your dashboard is ready in 5 minutes.</p>
-          <a href="https://console.rald.cloud" className="inline-flex items-center gap-2 px-8 py-4 rounded-full font-black hover:scale-105 transition-all" style={{background:A,color:"#000",boxShadow:`0 0 30px ${A}35`}}>
-            Open Raldtics free <ArrowRight className="w-4 h-4"/>
-          </a>
+          
         </div>
       </section>
 
