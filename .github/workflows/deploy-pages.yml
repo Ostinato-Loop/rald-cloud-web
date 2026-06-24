@@ -43,7 +43,7 @@ jobs:
           VITE_API_BASE_URL: https://api.rald.cloud
 
       - name: Deploy to Cloudflare Pages
-        uses: cloudflare/wrangler-action@v3
+        uses: cloudflare/wrangler-action@v4
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: d5a1cd03b76f467430034af64a7062fd
